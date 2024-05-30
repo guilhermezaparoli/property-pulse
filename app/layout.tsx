@@ -1,10 +1,17 @@
 import { ReactNode } from "react";
+import "@/assets/styles/globals.css"
 
-interface layoutProps {
+
+export const metadata = {
+  title: 'PropertyPulse | Find The Perfect Rental ',
+  description: 'Find your dream rental property',
+  keywords: 'rental, find rentals, find properties'
+}
+interface MainLayoutProps {
   children?: ReactNode
 }
 
-const layout = ({children}: layoutProps) => {
+const MainLayout = ({children}: MainLayoutProps) => {
   return (
     <html lang="pt-br">
       <body>
@@ -14,4 +21,4 @@ const layout = ({children}: layoutProps) => {
   );
 };
 
-export default layout;
+export default MainLayout;
