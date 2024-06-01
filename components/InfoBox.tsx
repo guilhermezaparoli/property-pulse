@@ -13,7 +13,7 @@ interface InfoBoxProps {
 
 const InfoBox = ({
   heading,
-  backgroundColor = 'bg-gra-100',
+  backgroundColor = 'bg-gray-100',
   textColor = 'text-gray-800',
   buttonInfo,
   children,

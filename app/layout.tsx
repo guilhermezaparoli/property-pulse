@@ -1,7 +1,7 @@
-import Navbar from './components/Navbar';
+import Navbar from '../components/Navbar';
 import { ReactNode } from 'react';
 import '@/assets/styles/globals.css';
-import Footer from './components/Footer';
+import Footer from '../components/Footer';
 
 export const metadata = {
   title: 'PropertyPulse | Find The Perfect Rental ',
