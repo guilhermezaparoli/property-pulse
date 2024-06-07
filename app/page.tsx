@@ -2,8 +2,7 @@ import Hero from '../components/Hero'
 import HomeProperties from '../components/HomeProperties'
 import InfoBoxes from '../components/InfoBoxes'
 
-
-const page = () => {
+const page = async () => {
   return (
     <>
      <Hero/>

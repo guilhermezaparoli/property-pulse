@@ -5,8 +5,6 @@ import Link from 'next/link';
 const HomeProperties = () => {
 
     const recentProperties = properties.sort(() => Math.random() - Math.random()).slice(0, 3)
-
-    console.log(recentProperties)
   return (
 <>
     <section className="px-4 py-6">

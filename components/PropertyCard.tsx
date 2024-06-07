@@ -46,7 +46,6 @@ interface PropertyCardProps {
 }
 
 const PropertyCard = ({ property }: PropertyCardProps) => {
-  console.log(property);
 
   function getRateDisplay() {
     const { rates } = property;
