@@ -2,6 +2,7 @@ import Navbar from '../components/Navbar';
 import { ReactNode } from 'react';
 import '@/assets/styles/globals.css';
 import Footer from '../components/Footer';
+import AuthProvider from '@/components/AuthProvider';
 
 export const metadata = {
   title: 'PropertyPulse | Find The Perfect Rental ',
@@ -14,13 +15,15 @@ interface MainLayoutProps {
 
 const MainLayout = ({ children }: MainLayoutProps) => {
   return (
-    <html lang="pt-br">
-      <body>
-        <Navbar />
-        <main>{children}</main>
-      <Footer/>
-      </body>
-    </html>
+    <AuthProvider>
+      <html lang="pt-br">
+        <body>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </body>
+      </html>
+    </AuthProvider>
   );
 };
 
