@@ -1,9 +1,42 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent } from 'react';
+
+interface Location {
+  street: string;
+  city: string;
+  state: string;
+  zipcode: string;
+}
+
+interface Rates {
+  weekly: string;
+  monthly: string;
+  nightly: string;
+}
+
+interface SellerInfo {
+  name: string;
+  email: string;
+  phone: string;
+}
+
+interface Fields {
+  type: string;
+  name: string;
+  description: string;
+  location: Location;
+  beds: string;
+  baths: string;
+  square_feet: string;
+  amenities: string[];
+  rates: Rates;
+  seller_info: SellerInfo;
+  images: File[];
+}
 
 const PropertyAddForm = () => {
   const [mounted, setMounted] = useState(false);
-  const [fields, setFields] = useState({
+  const [fields, setFields] = useState<Fields>({
     type: 'Condo',
     name: 'Test Property',
     description: '',
@@ -34,7 +67,12 @@ const PropertyAddForm = () => {
     setMounted(true);
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e:
+      | ChangeEvent<HTMLInputElement>
+      | ChangeEvent<HTMLSelectElement>
+      | ChangeEvent<HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
 
     if (name.includes('.')) {
@@ -54,19 +92,17 @@ const PropertyAddForm = () => {
       }));
     }
   };
-  const handleAmenitiesChange = (e) => {
+  const handleAmenitiesChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
 
-    const uptadedAmenities = [...fields.amenities];
+    let uptadedAmenities = [...fields.amenities];
 
     if (checked) {
       uptadedAmenities.push(value);
     } else {
-      const index = uptadedAmenities.indexOf(value);
-
-      if (index !== -1) {
-        uptadedAmenities.splice(index, 1);
-      }
+      uptadedAmenities = uptadedAmenities.filter(
+        (amenitie) => amenitie !== value
+      );
     }
 
     setFields((prevFields) => ({
@@ -74,8 +110,10 @@ const PropertyAddForm = () => {
       amenities: uptadedAmenities,
     }));
   };
-  const handleImageChange = (e) => {
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
+
+    if (!files) return;
 
     const updatedImages = [...fields.images];
 
@@ -90,7 +128,11 @@ const PropertyAddForm = () => {
   };
   return (
     mounted && (
-      <form>
+      <form
+        action="/api/properties"
+        method="POST"
+        encType="multipart/form-data"
+      >
         <h2 className="text-3xl text-center font-semibold mb-6">
           Add Property
         </h2>
@@ -494,7 +536,7 @@ const PropertyAddForm = () => {
           <input
             type="text"
             id="seller_name"
-            name="seller_info.name."
+            name="seller_info.name"
             className="border rounded w-full py-2 px-3"
             placeholder="Name"
             value={fields.seller_info.name}
@@ -552,6 +594,7 @@ const PropertyAddForm = () => {
             accept="image/*"
             multiple
             onChange={handleImageChange}
+            required
           />
         </div>
 
