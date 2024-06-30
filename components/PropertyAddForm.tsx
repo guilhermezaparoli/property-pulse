@@ -34,30 +34,51 @@ interface Fields {
   images: File[];
 }
 
+// Utility type to allow deep partial updates
+type DeepPartial<T> = {
+  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
+};
+
+// Utility function to update nested fields
+function updateNestedFields<T>(obj: T, path: string, value: any): T {
+  const keys = path.split('.');
+  const lastKey = keys.pop();
+  const lastObj = keys.reduce((acc, key) => {
+    acc[key] = acc[key] || {};
+    return acc[key];
+  }, obj as any);
+  
+  if (lastKey) {
+    lastObj[lastKey] = value;
+  }
+  
+  return { ...obj };
+}
+
 const PropertyAddForm = () => {
   const [mounted, setMounted] = useState(false);
   const [fields, setFields] = useState<Fields>({
-    type: 'Condo',
-    name: 'Test Property',
+    type: '',
+    name: '',
     description: '',
     location: {
       street: '',
-      city: 'Test City',
-      state: 'Test State',
+      city: '',
+      state: '',
       zipcode: '',
     },
-    beds: '3',
-    baths: '2',
-    square_feet: '1800',
-    amenities: ['Free Parking'],
+    beds: '',
+    baths: '',
+    square_feet: '',
+    amenities: [],
     rates: {
       weekly: '',
-      monthly: '2000',
+      monthly: '',
       nightly: '',
     },
     seller_info: {
       name: '',
-      email: 'test@test.com',
+      email: '',
       phone: '',
     },
     images: [],
@@ -75,23 +96,9 @@ const PropertyAddForm = () => {
   ) => {
     const { name, value } = e.target;
 
-    if (name.includes('.')) {
-      const [outerKey, innerKey] = name.split('.');
-
-      setFields((prevFields) => ({
-        ...prevFields,
-        [outerKey]: {
-          ...prevFields[outerKey],
-          [innerKey]: value,
-        },
-      }));
-    } else {
-      setFields((prevFields) => ({
-        ...prevFields,
-        [name]: value,
-      }));
-    }
+    setFields((prevFields) => updateNestedFields(prevFields, name, value));
   };
+  
   const handleAmenitiesChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
 
