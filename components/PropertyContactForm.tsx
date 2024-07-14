@@ -1,18 +1,42 @@
+'use client'
 import { Property } from '@/@types/PropertyTypes';
-import React from 'react'
+import React, { useState } from 'react'
 import { FaPaperPlane } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 interface PropertyContactFormProps {
   property: Property;
 }
 
 const PropertyContactForm = ({property}: PropertyContactFormProps) => {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
+  const [phone, setPhone] = useState('')
+  const [wasSubmitted, setWasSubmitted] = useState(false)
+
+
+  const handleSubmit =  (e) => { 
+    e.preventDefault()
+
+    const data = {
+      name,
+      email,
+      message,
+      phone,
+      recipient: property.owner,
+      property: property._id
+    }
+    console.log(data)
+    setWasSubmitted(true)
+    toast.success('Your message has been sent sucessfully')
+  }
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
     <h3 className="text-xl font-bold mb-6">
       Contact Property Manager
     </h3>
-    <form>
+    {wasSubmitted ? (<p className='text-green-500 mb-4'>Your message has been sent sucessfully </p>) : (<form onSubmit={handleSubmit}>
       <div className="mb-4">
         <label
           className="block text-gray-700 text-sm font-bold mb-2"
@@ -26,6 +50,8 @@ const PropertyContactForm = ({property}: PropertyContactFormProps) => {
           type="text"
           placeholder="Enter your name"
           required
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
       </div>
       <div className="mb-4">
@@ -41,6 +67,8 @@ const PropertyContactForm = ({property}: PropertyContactFormProps) => {
           type="email"
           placeholder="Enter your email"
           required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
       </div>
       <div className="mb-4">
@@ -55,6 +83,8 @@ const PropertyContactForm = ({property}: PropertyContactFormProps) => {
           id="phone"
           type="text"
           placeholder="Enter your phone number"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
         />
       </div>
       <div className="mb-4">
@@ -68,6 +98,8 @@ const PropertyContactForm = ({property}: PropertyContactFormProps) => {
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 h-44 focus:outline-none focus:shadow-outline"
           id="message"
           placeholder="Enter your message"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
         ></textarea>
       </div>
       <div>
@@ -78,7 +110,8 @@ const PropertyContactForm = ({property}: PropertyContactFormProps) => {
           <FaPaperPlane className="mr-2"/> Send Message
         </button>
       </div>
-    </form>
+    </form>)}
+    
   </div>
   )
 }
