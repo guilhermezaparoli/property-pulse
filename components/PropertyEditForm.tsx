@@ -163,11 +163,11 @@ const [loading, setLoading] = useState(true)
         } else if(res.status === 401|| res.status == 404){
             toast.error("Permission denied")
         } else {
-            toast.error("Something went wrong")
+            toast.error("Algo deu errado")
         }
     } catch (error) {
         console.error(error)
-        toast.error("Something went wrong")
+        toast.error("Algo deu errado")
     }
   }
   return (

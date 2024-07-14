@@ -18,7 +18,7 @@ const BookmarkButton = ({ property }: BookMarkButtonProps) => {
 
   const handleClick = async () => {
     if (!userId) {
-      toast.error('You need to sign in to bookmark a property');
+      toast.error('Você precisa estar logado para favoritar um imóvel');
       return;
     }
 
@@ -40,7 +40,7 @@ const BookmarkButton = ({ property }: BookMarkButtonProps) => {
       }
     } catch (error) {
       console.error(error);
-      toast.error('Something went wrong');
+      toast.error('Algo deu errado');
     }
   };
 
@@ -75,7 +75,7 @@ console.log(res)
   }, [property._id, userId]);
 
   if(loading) {
-    return <p className='text-center'>Loading...</p>
+    return <p className='text-center'>Carregando...</p>
   }
 
   return isBookmarked ? (
@@ -83,14 +83,14 @@ console.log(res)
       onClick={handleClick}
       className="bg-red-500 hover:bg-red-600 text-white font-bold w-full py-2 px-4 rounded-full flex items-center justify-center"
     >
-      <FaBookmark className="mr-2" /> Remove Bookmark
+      <FaBookmark className="mr-2" /> Remover dos favoritos
     </button>
   ) : (
     <button
       onClick={handleClick}
       className="bg-blue-500 hover:bg-blue-600 text-white font-bold w-full py-2 px-4 rounded-full flex items-center justify-center"
     >
-      <FaBookmark className="mr-2" /> Bookmark Property
+      <FaBookmark className="mr-2" /> Favoritar propriedade
     </button>
   );
 };

@@ -17,7 +17,7 @@ export const GET = async () => {
     });
   } catch (error) {
     console.error(error);
-    return new Response(`Something Went Wrong`, {
+    return new Response(`Algo deu errado`, {
       status: 500,
     });
   }

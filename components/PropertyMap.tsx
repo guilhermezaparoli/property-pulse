@@ -63,7 +63,7 @@ console.log(res.results)
 if(loading) return <Spinner loading={loading}/>
 
 if(geocodeError){
-    return <div className='text-xl'>No location data found</div>
+    return <div className='text-xl'>Localização não encontrada no mapa</div>
 }
 
   return !loading && (<Map mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}

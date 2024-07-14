@@ -58,7 +58,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
       return `${rates.nightly.toLocaleString()}/night`;
     }
   }
-  console.log(property)
+
   return (
     <div className="bg-white rounded-xl shadow-md relative">
       <Image
@@ -80,16 +80,16 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
         <div className="flex justify-center gap-4 text-gray-500 mb-4">
           <p>
             <FaBed className="inline mr-2" /> {property.beds}{' '}
-            <span className="md:hidden lg:inline">Beds</span>
+            <span className="md:hidden lg:inline">Camas</span>
           </p>
           <p>
             <FaBath className="inline mr-2" /> {property.baths}{' '}
-            <span className="md:hidden lg:inline">Baths</span>
+            <span className="md:hidden lg:inline">Banheiros</span>
           </p>
           <p>
             <FaRulerCombined className="inline mr-2" />
             {property.square_feet}{' '}
-            <span className="md:hidden lg:inline">sqft</span>
+            <span className="md:hidden lg:inline">m²</span>
           </p>
         </div>
 
@@ -97,18 +97,18 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
           {property.rates.nightly && (
             <p>
               <FaMoneyBill className="inline mr-2" />
-              Nightly
+              Diária
             </p>
           )}
           {property.rates.weekly && (
             <p>
               <FaMoneyBill className="inline mr-2" />
-              Weekly
+              Semanal
             </p>
           )}
           {property.rates.monthly && (
             <p>
-             <FaMoneyBill className="inline mr-2" /> Monthly
+             <FaMoneyBill className="inline mr-2" /> Mensal
             </p>
           )}
         </div>
@@ -127,7 +127,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
             href={`/properties/${property._id}`}
             className="h-[36px] bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-center text-sm"
           >
-            Details
+            Detalhes
           </Link>
         </div>
       </div>

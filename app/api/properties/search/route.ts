@@ -34,7 +34,7 @@ export const GET = async (request: Request) => {
 
     return new Response(JSON.stringify(properties), { status: 200 });
   } catch (error) {
-    return new Response(JSON.stringify('Something went wrong'), {
+    return new Response(JSON.stringify('Algo deu errado'), {
       status: 500,
     });
   }

@@ -36,7 +36,6 @@ const Navbar = () => {
     setAuthProviders();
   }, []);
 
-  console.log(providers);
   return (
     <nav className="bg-blue-700 border-b border-blue-500">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -52,7 +51,7 @@ const Navbar = () => {
               onClick={() => setIsMobileMenuOpen((prev) => !prev)}
             >
               <span className="absolute -inset-0.5"></span>
-              <span className="sr-only">Open main menu</span>
+              <span className="sr-only">Abrir menu principal</span>
               <svg
                 className="block h-6 w-6"
                 fill="none"
@@ -88,7 +87,7 @@ const Navbar = () => {
                     pathname === '/' ? 'bg-black' : ''
                   } text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}
                 >
-                  Home
+                  Início
                 </Link>
                 <Link
                   href="/properties"
@@ -96,7 +95,7 @@ const Navbar = () => {
                     pathname == '/properties' ? 'bg-black' : ''
                   } text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}
                 >
-                  Properties
+                  Imóveis
                 </Link>
                 {session && (
                   <Link
@@ -105,7 +104,7 @@ const Navbar = () => {
                       pathname == '/properties/add' ? 'bg-black' : ''
                     } text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}
                   >
-                    Add Property
+                    Adicionar imóveis
                   </Link>
                 )}
               </div>
@@ -124,7 +123,7 @@ const Navbar = () => {
                       className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
                     >
                       <FaGoogle className="text-white mr-2" />
-                      <span>Login or Register</span>
+                      <span>Entrar ou Registrar</span>
                     </button>
                   ))}
               </div>
@@ -140,7 +139,7 @@ const Navbar = () => {
                   className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
                   <span className="absolute -inset-1.5"></span>
-                  <span className="sr-only">View notifications</span>
+                  <span className="sr-only">Visualizar notificações</span>
                   <svg
                     className="h-6 w-6"
                     fill="none"
@@ -173,7 +172,7 @@ const Navbar = () => {
                     onClick={() => setIsProfileMenuOpen((prev) => !prev)}
                   >
                     <span className="absolute -inset-1.5"></span>
-                    <span className="sr-only">Open user menu</span>
+                    <span className="sr-only">Abrir menu do usuário</span>
                     <Image
                       className="h-8 w-8 rounded-full"
                       src={profileImage || profileDefault}
@@ -204,7 +203,7 @@ const Navbar = () => {
                         setIsProfileMenuOpen(false)
                       }}
                     >
-                      Your Profile
+                      Perfil
                     </Link>
                     <Link
                       href="/properties/saved"
@@ -216,7 +215,7 @@ const Navbar = () => {
                         setIsProfileMenuOpen(false)
                       }}
                     >
-                      Saved Properties
+                      Favoritos
                     </Link>
                     <button
                     onClick={() => {
@@ -229,7 +228,7 @@ const Navbar = () => {
                       tabIndex={-1}
                       id="user-menu-item-2"
                     >
-                      Sign Out
+                      Sair
                     </button>
                   </div>
                 )}
@@ -250,7 +249,7 @@ const Navbar = () => {
                 pathname === '/' ? 'bg-black' : ''
               } text-white block rounded-md px-3 py-2 text-base font-medium`}
             >
-              Home
+              Início
             </Link>
             <Link
               href="/properties"
@@ -258,7 +257,7 @@ const Navbar = () => {
                 pathname === '/properties' ? 'bg-black' : ''
               } text-white block rounded-md px-3 py-2 text-base font-medium`}
             >
-              Properties
+              Imóveis
             </Link>
             {session ? (
               <Link
@@ -267,7 +266,7 @@ const Navbar = () => {
                   pathname === '/properties/add' ? 'bg-black' : ''
                 } text-white block rounded-md px-3 py-2 text-base font-medium`}
               >
-                Add Property
+                Adicionar imóveis
               </Link>
             ) : 
               providers &&
@@ -277,7 +276,7 @@ const Navbar = () => {
                     key={index}
                     className="flex items-center text-white bg-gray-700 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
                   >
-                    <span>Login or Register</span>
+                    <span>Entrar ou Registrar</span>
                   </button>
                 ))
             }

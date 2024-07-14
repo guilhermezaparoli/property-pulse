@@ -21,19 +21,19 @@ const ShareButtons = ({ property }: ShareButtonsProps) => {
   return (
    <>
    <h3 className="text-xl font-bold text-center pt-2">
-    Share This Property
+    Compartilhar este imóvel
    </h3>
    <div className="flex gap-3 justify-center pb-5">
-    <FacebookShareButton url={shareUrl} hashtag={`${property.type.replace(/\s/g, '')}ForRent`}>
+    <FacebookShareButton url={shareUrl} hashtag={`${property.type.replace(/\s/g, '')}ParaAlugar`}>
 <FacebookIcon size={40} round={true}/>
     </FacebookShareButton>
-    <TwitterShareButton url={shareUrl} title={property.name} hashtags={[`${property.type.replace(/\s/g, '')}ForRent`]}>
+    <TwitterShareButton url={shareUrl} title={property.name} hashtags={[`${property.type.replace(/\s/g, '')}ParaAlugar`]}>
 <TwitterIcon size={40} round={true}/>
     </TwitterShareButton>
     <WhatsappShareButton url={shareUrl} title={property.name} separator=':: '>
 <WhatsappIcon size={40} round={true}/>
     </WhatsappShareButton>
-    <EmailShareButton url={shareUrl} subject={property.name} body={`Check out this property listing ${shareUrl}`}>
+    <EmailShareButton url={shareUrl} subject={property.name} body={`Dê uma olhada neste imóvel ${shareUrl}`}>
 <EmailIcon size={40} round={true}/>
     </EmailShareButton>
    </div>

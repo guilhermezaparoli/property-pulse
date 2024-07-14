@@ -1,6 +1,6 @@
-'use client'
+'use client';
 import { Property } from '@/@types/PropertyTypes';
-import React, { useState } from 'react'
+import React, { FormEvent, useState } from 'react';
 import { FaPaperPlane } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 
@@ -8,16 +8,15 @@ interface PropertyContactFormProps {
   property: Property;
 }
 
-const PropertyContactForm = ({property}: PropertyContactFormProps) => {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [message, setMessage] = useState('')
-  const [phone, setPhone] = useState('')
-  const [wasSubmitted, setWasSubmitted] = useState(false)
+const PropertyContactForm = ({ property }: PropertyContactFormProps) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [phone, setPhone] = useState('');
+  const [wasSubmitted, setWasSubmitted] = useState(false);
 
-
-  const handleSubmit =  (e) => { 
-    e.preventDefault()
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
 
     const data = {
       name,
@@ -25,95 +24,126 @@ const PropertyContactForm = ({property}: PropertyContactFormProps) => {
       message,
       phone,
       recipient: property.owner,
-      property: property._id
+      property: property._id,
+    };
+
+    try {
+      const res = await fetch('/api/messages', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'apllication/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (res.status == 200) {
+        toast.success('Message has been sent sucessfully');
+        setWasSubmitted(true);
+      } else if (res.status === 400) {
+        toast.error('Can not send a message to yourself');
+      } else if (res.status === 401) {
+        toast.error('You must be logged in to send a message');
+      } else {
+        toast.error("Error sending form")
+      }
+
+      console.log(res);
+    } catch (error) {
+      console.error(error)
+      toast.error("Error sending form")
+    } finally {
+      setName('');
+      setEmail('')
+      setPhone('')
+      setMessage('')
     }
-    console.log(data)
-    setWasSubmitted(true)
-    toast.success('Your message has been sent sucessfully')
-  }
+  };
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
-    <h3 className="text-xl font-bold mb-6">
-      Contact Property Manager
-    </h3>
-    {wasSubmitted ? (<p className='text-green-500 mb-4'>Your message has been sent sucessfully </p>) : (<form onSubmit={handleSubmit}>
-      <div className="mb-4">
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="name"
-        >
-          Name:
-        </label>
-        <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="name"
-          type="text"
-          placeholder="Enter your name"
-          required
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </div>
-      <div className="mb-4">
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="email"
-        >
-          Email:
-        </label>
-        <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="email"
-          type="email"
-          placeholder="Enter your email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </div>
-      <div className="mb-4">
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="phone"
-        >
-          Phone:
-        </label>
-        <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="phone"
-          type="text"
-          placeholder="Enter your phone number"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
-      </div>
-      <div className="mb-4">
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="message"
-        >
-          Message:
-        </label>
-        <textarea
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 h-44 focus:outline-none focus:shadow-outline"
-          id="message"
-          placeholder="Enter your message"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        ></textarea>
-      </div>
-      <div>
-        <button
-          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline flex items-center justify-center"
-          type="submit"
-        >
-          <FaPaperPlane className="mr-2"/> Send Message
-        </button>
-      </div>
-    </form>)}
-    
-  </div>
-  )
-}
+      <h3 className="text-xl font-bold mb-6">Fale com o proprietário</h3>
+      {wasSubmitted ? (
+        <p className="text-green-500 mb-4">
+          Sua mensagem foi enviada com sucesso!
+        </p>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="name"
+            >
+              Nome:
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="name"
+              type="text"
+              placeholder="Digite seu nome"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="email"
+            >
+              Email:
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="email"
+              type="email"
+              placeholder="Digite seu email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="phone"
+            >
+              Telefone:
+            </label>
+            <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="phone"
+              type="text"
+              placeholder="Digite seu telefone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="message"
+            >
+              Mensagem:
+            </label>
+            <textarea
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 h-44 focus:outline-none focus:shadow-outline"
+              id="message"
+              placeholder="Digite sua mensagem"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            ></textarea>
+          </div>
+          <div>
+            <button
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline flex items-center justify-center"
+              type="submit"
+            >
+              <FaPaperPlane className="mr-2" /> Enviar Mensagem
+            </button>
+          </div>
+        </form>
+      )}
+    </div>
+  );
+};
 
-export default PropertyContactForm
+export default PropertyContactForm;

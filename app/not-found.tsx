@@ -15,14 +15,14 @@ const NotFoundPage = () => {
             />
           </div>
           <div className="text-center">
-            <h1 className="text-3xl font-bold mt-4 mb-2">Page Not Found</h1>
+            <h1 className="text-3xl font-bold mt-4 mb-2">Página não encontrada</h1>
             <p className="text-gray-500 text-xl mb-10">
-              The page you are looking for does not exist.
+              A página que você procura não existe.
             </p>
             <Link
               href="/"
               className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-4 px-6 rounded"
-              >Go Home</Link>
+              >Voltar ao início</Link>
           </div>
         </div>
       </div>

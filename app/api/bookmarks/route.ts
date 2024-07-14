@@ -26,7 +26,7 @@ export const GET = async () => {
     return new Response(JSON.stringify(bookmarks), {status: 200})
     } catch (error) {
         console.error(error)
-        return new Response("Something went wrong", {status: 500})
+        return new Response("Algo deu errado", {status: 500})
     }
 }
 
@@ -66,6 +66,6 @@ export const POST = async (request: NextRequest) => {
     });
   } catch (error) {
     console.error(error);
-    return new Response('Something went wrong', { status: 500 });
+    return new Response('Algo deu errado', { status: 500 });
   }
 };

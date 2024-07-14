@@ -30,7 +30,7 @@ const PropertySearchForm = () => {
         <input
           type="text"
           id="location"
-          placeholder="Enter Keywords or Location"
+          placeholder="Digite Sua Pesquisa"
           className="w-full px-4 py-3 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring focus:ring-blue-500"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
@@ -61,7 +61,7 @@ const PropertySearchForm = () => {
         type="submit"
         className="md:ml-4 mt-4 md:mt-0 w-full md:w-auto px-6 py-3 rounded-lg bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-500"
       >
-        Search
+        Pesquisar
       </button>
     </form>
   );

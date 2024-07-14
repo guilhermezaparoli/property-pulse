@@ -23,7 +23,7 @@ export const GET = async (request: NextRequest, {params}: any) => {
     });
   } catch (error) {
     console.error(error);
-    return new Response(`Something Went Wrong`, {
+    return new Response(`Algo deu errado`, {
       status: 500,
     });
   }
