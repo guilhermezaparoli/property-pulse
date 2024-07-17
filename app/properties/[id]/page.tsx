@@ -44,7 +44,7 @@ const PropertiesIdPage = () => {
       <>
         {!loading && property && (
           <h1 className="text-center text-2xl font-bold mt-10">
-            Property Not Found!
+            Imóvel não encontrado
           </h1>
         )}
       </>
@@ -64,7 +64,7 @@ const PropertiesIdPage = () => {
             href="/properties"
             className="text-blue-500 hover:text-blue-600 flex items-center"
           >
-            <FaArrowLeft className='mr-2'/> Back to Properties
+            <FaArrowLeft className='mr-2'/> Voltar aos imóveis
           </Link>
         </div>
       </section>

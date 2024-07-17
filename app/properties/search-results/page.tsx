@@ -52,12 +52,12 @@ const SearchResultsPage = () => {
   ) : (
     <section className="px-4 py-6">
         <Link href={'/properties'} className='flex items-center text-blue-500 hover:underline mb-3'>
-        <FaArrowAltCircleLeft className='mr-2 mb-1'/> Back to properties
+        <FaArrowAltCircleLeft className='mr-2 mb-1'/> Voltar para os imóveis
         </Link>
       <div className="container-xl lg:container m-auto mt-6">
-      <h1 className="text-2xl mb-4">Search Results</h1>
+      <h1 className="text-2xl mb-4">Resultados da pesquisa</h1>
         {properties.length === 0 ? (
-          <p>No search results found</p>
+          <p>Nenhum resultado encontrado</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {properties.map((property: Property) => (
