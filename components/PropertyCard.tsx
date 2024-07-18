@@ -78,13 +78,16 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
         </h3>
 
         <div className="flex justify-center gap-4 text-gray-500 mb-4">
+     
           <p>
             <FaBed className="inline mr-2" /> {property.beds}{' '}
-            <span className="md:hidden lg:inline">Camas</span>
+            <span className="md:hidden lg:inline">{
+            property.beds == 1 ? "Cama" : "Camas"
+            }</span>
           </p>
           <p>
             <FaBath className="inline mr-2" /> {property.baths}{' '}
-            <span className="md:hidden lg:inline">Banheiros</span>
+            <span className="md:hidden lg:inline">{property.baths == 1 ?"Banheiro" : "Banheiros"}</span>
           </p>
           <p>
             <FaRulerCombined className="inline mr-2" />

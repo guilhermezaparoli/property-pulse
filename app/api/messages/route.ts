@@ -14,14 +14,14 @@ export const POST = async (request: NextRequest) => {
     const sessionUser = await getSessionUser();
 
     if (!sessionUser || !sessionUser.user) {
-      return new Response('User ID is required', { status: 401 });
+      return new Response('Id do usuário é obrigatório', { status: 401 });
     }
 
     const { user } = sessionUser;
 
     if (user.id == recipient) {
       return new Response(
-        JSON.stringify({ message: 'Can not send a message to yourself' }),
+        JSON.stringify({ message: 'Não é possível mandar mensagem para si mesmo' }),
         { status: 400 }
       );
     }
@@ -38,7 +38,7 @@ export const POST = async (request: NextRequest) => {
 
     await newMessage.save();
 
-    return new Response(JSON.stringify({ message: 'Message sent' }), {
+    return new Response(JSON.stringify({ message: 'Mensagem enviada' }), {
       status: 200,
     });
   } catch (error) {

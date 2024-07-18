@@ -51,11 +51,11 @@ export const POST = async (request: NextRequest) => {
 
     if (isBookmarked) {
       user.bookmarks.pull(propertyId);
-      message = 'Bookmark removed sucessfully';
+      message = 'Imóvel removido dos favoritos';
       isBookmarked = false;
     } else {
       user.bookmarks.push(propertyId);
-      message = 'Bookmark added sucessfully';
+      message = 'Imóvel salvo nos favoritos';
       isBookmarked = true;
     }
 

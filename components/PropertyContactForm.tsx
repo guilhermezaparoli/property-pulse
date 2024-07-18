@@ -1,5 +1,6 @@
 'use client';
 import { Property } from '@/@types/PropertyTypes';
+import { useSession } from 'next-auth/react';
 import React, { FormEvent, useState } from 'react';
 import { FaPaperPlane } from 'react-icons/fa';
 import { toast } from 'react-toastify';
@@ -14,7 +15,8 @@ const PropertyContactForm = ({ property }: PropertyContactFormProps) => {
   const [message, setMessage] = useState('');
   const [phone, setPhone] = useState('');
   const [wasSubmitted, setWasSubmitted] = useState(false);
-
+const {data: session} = useSession()
+console.log(session)
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -37,20 +39,20 @@ const PropertyContactForm = ({ property }: PropertyContactFormProps) => {
       });
 
       if (res.status == 200) {
-        toast.success('Message has been sent sucessfully');
+        toast.success('Mensagem enviada com sucesso!');
         setWasSubmitted(true);
       } else if (res.status === 400) {
-        toast.error('Can not send a message to yourself');
+        toast.error('Não é possível enviar mensagem para si mesmo');
       } else if (res.status === 401) {
-        toast.error('You must be logged in to send a message');
+        toast.error('Você deve estar logado para enviar uma mensagem');
       } else {
-        toast.error("Error sending form")
+        toast.error("Erro ao enviar mensagem")
       }
 
       console.log(res);
     } catch (error) {
       console.error(error)
-      toast.error("Error sending form")
+      toast.error("Erro ao enviar mensagem")
     } finally {
       setName('');
       setEmail('')
@@ -61,7 +63,7 @@ const PropertyContactForm = ({ property }: PropertyContactFormProps) => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
       <h3 className="text-xl font-bold mb-6">Fale com o proprietário</h3>
-      {wasSubmitted ? (
+      {!session ? ("Você precisar estar logado para enviar uma mensagem"): ( wasSubmitted ? (
         <p className="text-green-500 mb-4">
           Sua mensagem foi enviada com sucesso!
         </p>
@@ -141,7 +143,8 @@ const PropertyContactForm = ({ property }: PropertyContactFormProps) => {
             </button>
           </div>
         </form>
-      )}
+      ))}
+    
     </div>
   );
 };

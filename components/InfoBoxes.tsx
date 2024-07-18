@@ -27,7 +27,7 @@ const InfoBoxes = () => {
               backgroundColor: 'bg-blue-500',
             }}
           >
-            Divulgue suas propriedades e alcance potenciais inquilinos. Alugue como um Airbnb ou a longo prazo.
+            Divulgue seus imóveis e alcance potenciais inquilinos. Alugue como um Airbnb ou a longo prazo.
           </InfoBox>
         </div>
       </div>
