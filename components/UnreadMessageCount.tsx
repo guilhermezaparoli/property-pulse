@@ -1,5 +1,6 @@
 'use-client';
 
+import { useGlobalContext } from '@/context/GlobalContext';
 import { useEffect, useState } from 'react';
 
 interface UnreadMessageCountProps {
@@ -15,8 +16,8 @@ interface UnreadMessageCountProps {
 }
 
 const UnreadMessageCount = ({ session }: UnreadMessageCountProps) => {
-  console.log(session);
-  const [unreadCount, setUnreadCount] = useState(0);
+const {unreadCount, setUnreadCount} = useGlobalContext()
+
 
   useEffect(() => {
     if(!session){

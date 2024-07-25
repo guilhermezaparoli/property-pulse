@@ -1,6 +1,7 @@
 'use client';
 import { MessageTypes } from '@/@types/MessageTypes';
-import React, { useState } from 'react';
+import { useGlobalContext } from '@/context/GlobalContext';
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 interface MessageProps {
@@ -9,6 +10,9 @@ interface MessageProps {
 const Message = ({ message }: MessageProps) => {
   const [isRead, setIsRead] = useState(message.read);
   const [isDeleted, setIsDeleted] = useState(false)
+  const {setUnreadCount} = useGlobalContext()
+
+
 
   async function onHandleClick() {
     try {
@@ -20,7 +24,7 @@ const Message = ({ message }: MessageProps) => {
         const {read} = await res.json()
 
         setIsRead(read)
-
+        setUnreadCount((prev: number) => (read ? prev - 1 : prev + 1) )
         if(read) {
         toast.success('Mensagem marcada como lida')
 
@@ -33,7 +37,7 @@ const Message = ({ message }: MessageProps) => {
         toast.error('Algo deu errado!')
     }
   }
-
+console.log(message)
   async function handleDeleteClick() {
     try {
         const res = await fetch(`/api/messages/${message._id}`, {method: "DELETE"})
@@ -41,6 +45,7 @@ const Message = ({ message }: MessageProps) => {
         if(res.status === 200) {
             toast.success("Mensagem deletada")
             setIsDeleted(true)
+            message.read && setUnreadCount((prev) => prev - 1)
         }
     } catch (error) {
         console.error(error)

@@ -5,6 +5,7 @@ import AuthProvider from '@/components/AuthProvider';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '@/assets/styles/globals.css';
+import { GlobalProvider } from '@/context/GlobalContext';
 
 export const metadata = {
   title: 'PropertyPulse | Find The Perfect Rental ',
@@ -17,7 +18,9 @@ interface MainLayoutProps {
 
 const MainLayout = ({ children }: MainLayoutProps) => {
   return (
+      <GlobalProvider>
     <AuthProvider>
+
       <html lang="pt-br">
         <body>
           <Navbar />
@@ -27,6 +30,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
         </body>
       </html>
     </AuthProvider>
+      </GlobalProvider>
   );
 };
 
