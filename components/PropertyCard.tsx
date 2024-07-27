@@ -51,11 +51,11 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
     const { rates } = property;
 
     if (rates.monthly) {
-      return `${rates.monthly.toLocaleString()}/mo`;
+      return `R$ ${rates.monthly.toLocaleString()}/mês`;
     } else if (rates.weekly) {
-      return `${rates.weekly.toLocaleString()}/wk`;
+      return `R$ ${rates.weekly.toLocaleString()}/semana`;
     } else if (rates.nightly) {
-      return `${rates.nightly.toLocaleString()}/night`;
+      return `R$ ${rates.nightly.toLocaleString()}/noite`;
     }
   }
 
@@ -65,7 +65,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
         src={property.images[0]}
         alt=""
         width={500}
-        height={500}
+        height={400}
         className="object-cover rounded-t-xl"
       />
       <div className="p-4">
@@ -74,7 +74,7 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
           <h3 className="text-xl font-bold">{property.name}</h3>
         </div>
         <h3 className="absolute top-[10px] right-[10px] bg-white px-4 py-2 rounded-lg text-blue-500 font-bold text-right md:text-center lg:text-right">
-          ${getRateDisplay()}
+          {getRateDisplay()}
         </h3>
 
         <div className="flex justify-center gap-4 text-gray-500 mb-4">

@@ -4,10 +4,15 @@ import PropertyCard from './PropertyCard';
 import { Property } from '@/@types/PropertyTypes';
 import { fetchProperties } from '@/utils/requests';
 import Spinner from './Spinner';
+import Pagination from './Pagination';
 
 const Properties = () => {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(6);
+  const [totalItems, setTotalItems] = useState(0);
+
   // const properties = await fetchProperties();
   // console.log(properties);
   // properties.sort(
@@ -18,13 +23,17 @@ const Properties = () => {
   useEffect(() => {
     const fetchProp = async () => {
       try {
-        const res = await fetchProperties();
-        res.sort(
+        const res = await fetch(
+          `/api/properties?page=${page}&pageSize=${pageSize}`
+        );
+        const data = await res.json();
+        data.properties.sort(
           (a: Property, b: Property) =>
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
 
-        setProperties(res);
+        setProperties(data.properties);
+        setTotalItems(data.total);
       } catch (error) {
         console.error(error);
       } finally {
@@ -32,7 +41,11 @@ const Properties = () => {
       }
     };
     fetchProp();
-  }, []);
+  }, [page, pageSize]);
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
   return loading ? (
     <Spinner />
   ) : (
@@ -48,6 +61,12 @@ const Properties = () => {
           </div>
         )}
       </div>
+      <Pagination
+        page={page}
+        pageSize={pageSize}
+        totalItems={totalItems}
+        onPageChange={handlePageChange}
+      />
     </section>
   );
 };

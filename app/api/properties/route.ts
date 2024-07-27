@@ -2,17 +2,28 @@ import connectDB from '@/config/database';
 import Property from '@/models/Property';
 import { getSessionUser } from '@/utils/getSessionUser';
 import { NextRequest } from 'next/server';
-import cloudinary from "@/config/cloudinary"
-
+import cloudinary from '@/config/cloudinary';
 
 //GET / properties
-export const GET = async () => {
+export const GET = async (request: NextRequest) => {
   try {
     await connectDB();
 
-    const properties = await Property.find({});
+    const page = Number(request.nextUrl.searchParams.get('page')) || 1;
+    const pageSize = Number(request.nextUrl.searchParams.get('pageSize')) || 6;
 
-    return new Response(JSON.stringify(properties), {
+    const skip = (page - 1) * pageSize;
+console.log(skip)
+    const total = await Property.countDocuments({});
+
+    const properties = await Property.find({}).skip(skip).limit(pageSize);
+
+    const result = {
+      total,
+      properties,
+    };
+
+    return new Response(JSON.stringify(result), {
       status: 200,
     });
   } catch (error) {
@@ -25,18 +36,18 @@ export const GET = async () => {
 
 export const POST = async (request: NextRequest) => {
   try {
-    await connectDB()
+    await connectDB();
 
     const sessionUser = await getSessionUser();
-    if(!sessionUser || !sessionUser.userId ) {
-      return new Response("Unathorized", {
-        status: 401
-      })
+    if (!sessionUser || !sessionUser.userId) {
+      return new Response('Unathorized', {
+        status: 401,
+      });
     }
 
-    const {userId} = sessionUser
+    const { userId } = sessionUser;
     const formData = await request.formData();
-console.log(formData)
+    console.log(formData);
     const amenities = formData.getAll('amenities');
     const images = formData
       .getAll('images')
@@ -66,35 +77,40 @@ console.log(formData)
         email: formData.get('seller_info.email'),
         phone: formData.get('seller_info.phone'),
       },
-      owner: userId
+      owner: userId,
     };
 
-     const imageUploadPromises = []
+    const imageUploadPromises = [];
 
-     for(const image of images){
-      const imageBuffer = await image.arrayBuffer()
-      const imageArray = Array.from(new Uint8Array(imageBuffer))
-      const imageData = Buffer.from(imageArray)
+    for (const image of images) {
+      const imageBuffer = await image.arrayBuffer();
+      const imageArray = Array.from(new Uint8Array(imageBuffer));
+      const imageData = Buffer.from(imageArray);
 
-      const imageBase64 = imageData.toString("base64")
+      const imageBase64 = imageData.toString('base64');
 
-      const result = await cloudinary.uploader.upload(`data:image/png;base64,${imageBase64}`, {
-        folder: 'propertypulse'
-      });
+      const result = await cloudinary.uploader.upload(
+        `data:image/png;base64,${imageBase64}`,
+        {
+          folder: 'propertypulse',
+        }
+      );
 
-      imageUploadPromises.push(result.secure_url)
+      imageUploadPromises.push(result.secure_url);
 
-      const uploadedImages = await Promise.all(imageUploadPromises)
+      const uploadedImages = await Promise.all(imageUploadPromises);
       propertyData.images = uploadedImages;
-     }
-    console.log(propertyData)
+    }
+    console.log(propertyData);
 
     console.log(images, amenities);
 
-    const newProperty = new Property(propertyData)
-    await newProperty.save()
+    const newProperty = new Property(propertyData);
+    await newProperty.save();
 
-    return Response.redirect(`${process.env.NEXTAUTH_URL}/properties/${newProperty._id}`)
+    return Response.redirect(
+      `${process.env.NEXTAUTH_URL}/properties/${newProperty._id}`
+    );
     // return new Response(JSON.stringify({ message: 'success' }), {
     //   status: 200,
     // });
