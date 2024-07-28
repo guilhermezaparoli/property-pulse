@@ -2,6 +2,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { NextAuthOptions, Session } from "next-auth";
 import connectDB from "@/config/database";
 import User from "@/models/User";
+import { Profile } from "next-auth";
 
 if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
     throw new Error("Missing Google client ID or secret");
