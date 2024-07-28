@@ -11,7 +11,7 @@
   "dependencies": {
     "@types/react-geocode": "^0.2.4",
     "cloudinary": "^2.2.0",
-    "mapbox-gl": "^3.5.1",
+    "mapbox-gl": "^3.5.2",
     "mongodb": "^6.7.0",
     "mongoose": "^8.4.1",
     "next": "14.2.3",
@@ -28,9 +28,11 @@
     "react-toastify": "^10.0.5"
   },
   "devDependencies": {
+    "@types/mapbox-gl": "^3.1.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-map-gl": "^6.1.6",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "postcss": "^8",

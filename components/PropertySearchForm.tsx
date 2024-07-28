@@ -7,16 +7,16 @@ const PropertySearchForm = () => {
   const [location, setLocation] = useState('');
   const [propertyType, setPropertyType] = useState('All');
 
-  const router = useRouter()
+  const router = useRouter();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-  if(location == '' && propertyType == "All"){
-    router.push('/properties')
-  } else {
-    const query = `?location=${location}&propertyType=${propertyType}`
-    router.push(`/properties/search-results${query}`)
-  }
+    if (location == '' && propertyType == 'All') {
+      router.push('/properties');
+    } else {
+      const query = `?location=${location}&propertyType=${propertyType}`;
+      router.push(`/properties/search-results${query}`);
+    }
   };
   return (
     <form
@@ -46,15 +46,14 @@ const PropertySearchForm = () => {
           value={propertyType}
           onChange={(e) => setPropertyType(e.target.value)}
         >
-          <option value="All">All</option>
-          <option value="Apartment">Apartment</option>
+          <option value="Todos">Todos</option>
+          <option value="Apartamento">Apartamento</option>
+          <option value="Condomínio">Condomínio</option>
+          <option value="Casa">Casa</option>
+          <option value="Cabana ou chalé">Cabana ou chalé</option>
+          <option value="Sala">Sala</option>
           <option value="Studio">Studio</option>
-          <option value="Condo">Condo</option>
-          <option value="House">House</option>
-          <option value="Cabin Or Cottage">Cabin or Cottage</option>
-          <option value="Loft">Loft</option>
-          <option value="Room">Room</option>
-          <option value="Other">Other</option>
+          <option value="Outro">Outro</option>
         </select>
       </div>
       <button

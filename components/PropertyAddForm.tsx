@@ -98,7 +98,6 @@ const PropertyAddForm = () => {
 
     setFields((prevFields) => updateNestedFields(prevFields, name, value));
   };
-  
   const handleAmenitiesChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
 
@@ -117,6 +116,7 @@ const PropertyAddForm = () => {
       amenities: uptadedAmenities,
     }));
   };
+  console.log(fields)
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
 
@@ -141,12 +141,12 @@ const PropertyAddForm = () => {
         encType="multipart/form-data"
       >
         <h2 className="text-3xl text-center font-semibold mb-6">
-          Add Property
+          Adicionar imóvel
         </h2>
 
         <div className="mb-4">
           <label htmlFor="type" className="block text-gray-700 font-bold mb-2">
-            Property Type
+            Tipo do imóvel
           </label>
           <select
             id="type"
@@ -156,25 +156,25 @@ const PropertyAddForm = () => {
             value={fields.type}
             onChange={handleChange}
           >
-            <option value="Apartment">Apartment</option>
-            <option value="Condo">Condo</option>
-            <option value="House">House</option>
-            <option value="Cabin Or Cottage">Cabin or Cottage</option>
-            <option value="Room">Room</option>
+            <option value="Apartamento">Apartamento</option>
+            <option value="Condomínio">Condomínio</option>
+            <option value="Casa">Casa</option>
+            <option value="Cabana ou chalé">Cabana ou chalé</option>
+            <option value="Sala">Sala</option>
             <option value="Studio">Studio</option>
-            <option value="Other">Other</option>
+            <option value="Outros">Outros</option>
           </select>
         </div>
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">
-            Listing Name
+            Nome
           </label>
           <input
             type="text"
             id="name"
             name="name"
             className="border rounded w-full py-2 px-3 mb-2"
-            placeholder="eg. Beautiful Apartment In Miami"
+            placeholder="Ex: Um lindo apartamento em São José"
             required
             value={fields.name}
             onChange={handleChange}
@@ -185,27 +185,27 @@ const PropertyAddForm = () => {
             htmlFor="description"
             className="block text-gray-700 font-bold mb-2"
           >
-            Description
+            Descrição
           </label>
           <textarea
             id="description"
             name="description"
             className="border rounded w-full py-2 px-3"
             rows={4}
-            placeholder="Add an optional description of your property"
+            placeholder="Adicione uma descrição do seu imóvel"
             value={fields.description}
             onChange={handleChange}
           ></textarea>
         </div>
 
         <div className="mb-4 bg-blue-50 p-4">
-          <label className="block text-gray-700 font-bold mb-2">Location</label>
+          <label className="block text-gray-700 font-bold mb-2">Localização</label>
           <input
             type="text"
             id="street"
             name="location.street"
             className="border rounded w-full py-2 px-3 mb-2"
-            placeholder="Street"
+            placeholder="Rua"
             value={fields.location.street}
             onChange={handleChange}
           />
@@ -214,7 +214,7 @@ const PropertyAddForm = () => {
             id="city"
             name="location.city"
             className="border rounded w-full py-2 px-3 mb-2"
-            placeholder="City"
+            placeholder="Cidade"
             required
             value={fields.location.city}
             onChange={handleChange}
@@ -224,7 +224,7 @@ const PropertyAddForm = () => {
             id="state"
             name="location.state"
             className="border rounded w-full py-2 px-3 mb-2"
-            placeholder="State"
+            placeholder="Estado"
             required
             value={fields.location.state}
             onChange={handleChange}
@@ -234,7 +234,7 @@ const PropertyAddForm = () => {
             id="zipcode"
             name="location.zipcode"
             className="border rounded w-full py-2 px-3 mb-2"
-            placeholder="Zipcode"
+            placeholder="CEP"
             value={fields.location.zipcode}
             onChange={handleChange}
           />
@@ -246,7 +246,7 @@ const PropertyAddForm = () => {
               htmlFor="beds"
               className="block text-gray-700 font-bold mb-2"
             >
-              Beds
+              Quartos
             </label>
             <input
               type="number"
@@ -263,7 +263,7 @@ const PropertyAddForm = () => {
               htmlFor="baths"
               className="block text-gray-700 font-bold mb-2"
             >
-              Baths
+              Banheiros
             </label>
             <input
               type="number"
@@ -280,7 +280,7 @@ const PropertyAddForm = () => {
               htmlFor="square_feet"
               className="block text-gray-700 font-bold mb-2"
             >
-              Square Feet
+              m²
             </label>
             <input
               type="number"
@@ -296,7 +296,7 @@ const PropertyAddForm = () => {
 
         <div className="mb-4">
           <label className="block text-gray-700 font-bold mb-2">
-            Amenities
+            Comodidades
           </label>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
             <div>
@@ -488,12 +488,12 @@ const PropertyAddForm = () => {
 
         <div className="mb-4 bg-blue-50 p-4">
           <label className="block text-gray-700 font-bold mb-2">
-            Rates (Leave blank if not applicable)
+            Valores (Caso não aplicável, deixe o campo em branco)
           </label>
           <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
             <div className="flex items-center">
               <label htmlFor="weekly_rate" className="mr-2">
-                Weekly
+                Semanal
               </label>
               <input
                 type="number"
@@ -506,7 +506,7 @@ const PropertyAddForm = () => {
             </div>
             <div className="flex items-center">
               <label htmlFor="monthly_rate" className="mr-2">
-                Monthly
+                Mensal
               </label>
               <input
                 type="number"
@@ -519,7 +519,7 @@ const PropertyAddForm = () => {
             </div>
             <div className="flex items-center">
               <label htmlFor="nightly_rate" className="mr-2">
-                Nightly
+                Diária
               </label>
               <input
                 type="number"
@@ -538,14 +538,14 @@ const PropertyAddForm = () => {
             htmlFor="seller_name"
             className="block text-gray-700 font-bold mb-2"
           >
-            Seller Name
+            Nome do proprietário
           </label>
           <input
             type="text"
             id="seller_name"
             name="seller_info.name"
             className="border rounded w-full py-2 px-3"
-            placeholder="Name"
+            placeholder="Nome"
             value={fields.seller_info.name}
             onChange={handleChange}
           />
@@ -555,14 +555,14 @@ const PropertyAddForm = () => {
             htmlFor="seller_email"
             className="block text-gray-700 font-bold mb-2"
           >
-            Seller Email
+            E-mail do proprietário
           </label>
           <input
             type="email"
             id="seller_email"
             name="seller_info.email"
             className="border rounded w-full py-2 px-3"
-            placeholder="Email address"
+            placeholder="Endereço de e-mail"
             required
             value={fields.seller_info.email}
             onChange={handleChange}
@@ -573,14 +573,14 @@ const PropertyAddForm = () => {
             htmlFor="seller_phone"
             className="block text-gray-700 font-bold mb-2"
           >
-            Seller Phone
+            Celular do proprietário
           </label>
           <input
             type="tel"
             id="seller_phone"
             name="seller_info.phone"
             className="border rounded w-full py-2 px-3"
-            placeholder="Phone"
+            placeholder="Celular"
             value={fields.seller_info.phone}
             onChange={handleChange}
           />
@@ -591,7 +591,7 @@ const PropertyAddForm = () => {
             htmlFor="images"
             className="block text-gray-700 font-bold mb-2"
           >
-            Images (Select up to 4 images)
+            Imagens (Selecione até 4 imagens)
           </label>
           <input
             type="file"

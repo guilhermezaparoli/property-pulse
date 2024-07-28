@@ -4,6 +4,34 @@ import { getSessionUser } from '@/utils/getSessionUser';
 import { NextRequest } from 'next/server';
 import cloudinary from '@/config/cloudinary';
 
+interface PropertyData {
+  type: FormDataEntryValue | null;
+  name: FormDataEntryValue | null;
+  description: FormDataEntryValue | null;
+  location: {
+    street: FormDataEntryValue | null;
+    city: FormDataEntryValue | null;
+    state: FormDataEntryValue | null;
+    zipcode: FormDataEntryValue | null;
+  };
+  beds: FormDataEntryValue | null;
+  baths: FormDataEntryValue | null;
+  square_feet: FormDataEntryValue | null;
+  amenities: FormDataEntryValue[];
+  rates: {
+    weekly: FormDataEntryValue | null;
+    monthly: FormDataEntryValue | null;
+    nightly: FormDataEntryValue | null;
+  };
+  seller_info: {
+    name: FormDataEntryValue | null;
+    email: FormDataEntryValue | null;
+    phone: FormDataEntryValue | null;
+  };
+  owner: string;
+  images: string[];
+
+}
 //GET / properties
 export const GET = async (request: NextRequest) => {
   try {
@@ -51,9 +79,9 @@ export const POST = async (request: NextRequest) => {
     const amenities = formData.getAll('amenities');
     const images = formData
       .getAll('images')
-      .filter((image) => image.name !== '');
+      .filter((image: any) => image.name !== '');
 
-    const propertyData = {
+    const propertyData: PropertyData = {
       type: formData.get('type'),
       name: formData.get('name'),
       description: formData.get('description'),
@@ -78,6 +106,7 @@ export const POST = async (request: NextRequest) => {
         phone: formData.get('seller_info.phone'),
       },
       owner: userId,
+      images: []
     };
 
     const imageUploadPromises = [];
@@ -98,13 +127,10 @@ export const POST = async (request: NextRequest) => {
 
       imageUploadPromises.push(result.secure_url);
 
-      const uploadedImages = await Promise.all(imageUploadPromises);
-      propertyData.images = uploadedImages;
     }
-    console.log(propertyData);
-
-    console.log(images, amenities);
-
+    const uploadedImages = await Promise.all(imageUploadPromises);
+    propertyData.images = uploadedImages;
+    console.log(uploadedImages)
     const newProperty = new Property(propertyData);
     await newProperty.save();
 

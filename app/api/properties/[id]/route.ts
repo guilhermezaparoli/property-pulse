@@ -72,7 +72,7 @@ export const DELETE = async (
   }
 };
 
-export const PUT = async (request: NextRequest, { params }) => {
+export const PUT = async (request: NextRequest, { params }: any) => {
   try {
     await connectDB();
 
