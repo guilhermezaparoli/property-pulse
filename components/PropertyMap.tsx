@@ -72,7 +72,7 @@ const PropertyMap = ({ property }: PropertyMapProps) => {
     !loading && (
       <Map
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
-        mapLib={mapboxgl} 
+        mapLib={mapboxgl as any} 
         initialViewState={{
           longitude: lng,
           latitude: lat,
