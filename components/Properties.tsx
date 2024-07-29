@@ -27,7 +27,7 @@ const Properties = () => {
           `/api/properties?page=${page}&pageSize=${pageSize}`
         );
         const data = await res.json();
-        data.properties.sort(
+        data.properties?.sort(
           (a: Property, b: Property) =>
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
