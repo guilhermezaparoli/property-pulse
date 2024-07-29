@@ -2,7 +2,7 @@ import connectDB from '@/config/database';
 import Property from '@/models/Property';
 import { getSessionUser } from '@/utils/getSessionUser';
 import { NextRequest } from 'next/server';
-
+export const dynamic = 'force-dynamic';
 
 
 //GET / properties

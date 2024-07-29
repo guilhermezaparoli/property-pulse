@@ -3,6 +3,7 @@ import Property from '@/models/Property';
 import { getSessionUser } from '@/utils/getSessionUser';
 import { NextRequest } from 'next/server';
 import cloudinary from '@/config/cloudinary';
+export const dynamic = 'force-dynamic';
 
 interface PropertyData {
   type: FormDataEntryValue | null;
