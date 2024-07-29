@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import PropertyCard from './PropertyCard';
 import { Property } from '@/@types/PropertyTypes';
-import { fetchProperties } from '@/utils/requests';
 import Spinner from './Spinner';
 import Pagination from './Pagination';
 
@@ -13,34 +12,28 @@ const Properties = () => {
   const [pageSize, setPageSize] = useState(6);
   const [totalItems, setTotalItems] = useState(0);
 
-  // const properties = await fetchProperties();
-  // console.log(properties);
-  // properties.sort(
-  //   (a: Property, b: Property) =>
-  //     new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  // );
-
   useEffect(() => {
-    const fetchProp = async () => {
+    const fetchProperties = async () => {
       try {
         const res = await fetch(
           `/api/properties?page=${page}&pageSize=${pageSize}`
         );
-        const data = await res.json();
-        data.properties?.sort(
-          (a: Property, b: Property) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
 
+        if (!res.ok) {
+          throw new Error('Failed to fetch data');
+        }
+
+        const data = await res.json();
         setProperties(data.properties);
         setTotalItems(data.total);
       } catch (error) {
-        console.error(error);
+        console.log(error);
       } finally {
         setLoading(false);
       }
     };
-    fetchProp();
+
+    fetchProperties();
   }, [page, pageSize]);
 
   const handlePageChange = (newPage: number) => {
