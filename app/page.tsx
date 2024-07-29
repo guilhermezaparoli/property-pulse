@@ -4,7 +4,7 @@ import HomeProperties from '../components/HomeProperties'
 import InfoBoxes from '../components/InfoBoxes'
 import FeaturedProperties from '@/components/FeaturedProperties'
 
-const page = async () => {
+const Page = async () => {
   
   return (
     <>
@@ -16,5 +16,5 @@ const page = async () => {
   )
 }
 
-export default page
+export default Page
  
