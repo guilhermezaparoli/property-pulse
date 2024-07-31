@@ -33,7 +33,6 @@ interface PropertyData {
   };
   owner: string;
   images: string[];
-
 }
 //GET / properties
 export const GET = async (request: NextRequest) => {
@@ -82,8 +81,8 @@ export const POST = async (request: NextRequest) => {
     const amenities = formData.getAll('amenities');
     const images = formData
       .getAll('images')
-      .filter((image: any) => image.name !== '');
-
+      .filter((image: any) => image.name !== '') as File[];
+console.log(images)
     const propertyData: PropertyData = {
       type: formData.get('type'),
       name: formData.get('name'),
@@ -118,6 +117,9 @@ export const POST = async (request: NextRequest) => {
 
     for (const image of images) {
       console.log(image)
+
+
+
       console.log(typeof image)
       // if (image instanceof File) {
         const imageBuffer = await image.arrayBuffer();
