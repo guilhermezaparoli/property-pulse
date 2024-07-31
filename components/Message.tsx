@@ -11,7 +11,7 @@ const Message = ({ message }: MessageProps) => {
   const [isRead, setIsRead] = useState(message.read);
   const [isDeleted, setIsDeleted] = useState(false)
   const {setUnreadCount} = useGlobalContext()
-
+console.log(message)
 
 
   async function onHandleClick() {
@@ -66,7 +66,7 @@ console.log(message)
       )}
       <h2 className="text-xl mb-4">
         <span className="font-bold">Imóvel:</span>
-        arrumar depois
+       {" "}{message.property.name}
       </h2>
       <p className="text-gray-700">{message.body}</p>
 

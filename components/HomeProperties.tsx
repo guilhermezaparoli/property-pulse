@@ -17,7 +17,7 @@ const HomeProperties = async () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {recentProperties.length === 0 ? (
-              <p>Nenhuma imóvel encontrado</p>
+              <p>Nenhum imóvel encontrado</p>
             ) : (
               recentProperties.map((property: Property) => (
                 <PropertyCard key={property._id} property={property} />

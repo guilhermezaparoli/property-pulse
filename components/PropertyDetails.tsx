@@ -37,7 +37,7 @@ const PropertyDetails = ({ data }: PropertyDetailsProps) => {
             <div className="text-2xl font-bold">
               <div className="text-2xl font-bold text-blue-500">
                 {data?.rates.nightly ? (
-                  `$${data.rates.nightly.toLocaleString()}`
+                  `R$ ${data.rates.nightly.toLocaleString()}`
                 ) : (
                   <FaTimes className="text-red-700" />
                 )}
@@ -48,7 +48,7 @@ const PropertyDetails = ({ data }: PropertyDetailsProps) => {
             <div className="text-gray-500 mr-2 font-bold">Semanal</div>
             <div className="text-2xl font-bold text-blue-500">
               {data?.rates.weekly ? (
-                `$${data.rates.weekly.toLocaleString()}`
+                `R$ ${data.rates.weekly.toLocaleString()}`
               ) : (
                 <FaTimes className="text-red-700" />
               )}
@@ -58,7 +58,7 @@ const PropertyDetails = ({ data }: PropertyDetailsProps) => {
             <div className="text-gray-500 mr-2 font-bold">Mensal</div>
             <div className="text-2xl font-bold text-blue-500">
               {data?.rates.monthly ? (
-                `$${data.rates.monthly.toLocaleString()}`
+                `R$ ${data.rates.monthly.toLocaleString()}`
               ) : (
                 <FaTimes className="text-red-700" />
               )}

@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^5.16.5",
     "@types/react-geocode": "^0.2.4",
     "cloudinary": "^2.2.0",
     "mapbox-gl": "^3.5.2",

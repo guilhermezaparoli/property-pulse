@@ -1,11 +1,13 @@
 'use client';
-import { useState, useEffect, ChangeEvent } from 'react';
+import { Autocomplete, styled, TextField } from '@mui/material';
+import { useState, useEffect, ChangeEvent, SyntheticEvent } from 'react';
 
 interface Location {
   street: string;
-  city: string;
+  city?: string;
   state: string;
   zipcode: string;
+  neighborhood: string;
 }
 
 interface Rates {
@@ -34,12 +36,6 @@ interface Fields {
   images: File[];
 }
 
-// Utility type to allow deep partial updates
-type DeepPartial<T> = {
-  [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];
-};
-
-// Utility function to update nested fields
 function updateNestedFields<T>(obj: T, path: string, value: any): T {
   const keys = path.split('.');
   const lastKey = keys.pop();
@@ -47,15 +43,24 @@ function updateNestedFields<T>(obj: T, path: string, value: any): T {
     acc[key] = acc[key] || {};
     return acc[key];
   }, obj as any);
-  
+
   if (lastKey) {
     lastObj[lastKey] = value;
   }
-  
+
   return { ...obj };
 }
 
+interface CitiesData {
+  nome: string;
+}
+interface StatesData {
+  sigla: string;
+}
 const PropertyAddForm = () => {
+  const [cities, setCities] = useState<CitiesData[] | []>([]);
+  console.log(cities);
+  const [states, setStates] = useState<StatesData[]>([]);
   const [mounted, setMounted] = useState(false);
   const [fields, setFields] = useState<Fields>({
     type: '',
@@ -65,6 +70,7 @@ const PropertyAddForm = () => {
       street: '',
       city: '',
       state: '',
+      neighborhood: '',
       zipcode: '',
     },
     beds: '',
@@ -86,18 +92,21 @@ const PropertyAddForm = () => {
 
   useEffect(() => {
     setMounted(true);
+    getCitiesByState('SP');
+    getStates();
   }, []);
 
   const handleChange = (
-    e:
-      | ChangeEvent<HTMLInputElement>
-      | ChangeEvent<HTMLSelectElement>
-      | ChangeEvent<HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target as
+      | HTMLInputElement
+      | HTMLSelectElement
+      | HTMLTextAreaElement;
 
     setFields((prevFields) => updateNestedFields(prevFields, name, value));
   };
+
   const handleAmenitiesChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
 
@@ -116,7 +125,8 @@ const PropertyAddForm = () => {
       amenities: uptadedAmenities,
     }));
   };
-  console.log(fields)
+  console.log(fields);
+
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
 
@@ -133,6 +143,34 @@ const PropertyAddForm = () => {
       images: updatedImages,
     }));
   };
+
+  async function getCitiesByState(acronym: string) {
+    if (!acronym) {
+      return;
+    }
+    try {
+      const res = await fetch(
+        `https://brasilapi.com.br/api/ibge/municipios/v1/${acronym}?providers=dados-abertos-br,gov,wikipedia`
+      );
+
+      const data = await res.json();
+      setCities(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async function getStates() {
+    try {
+      const res = await fetch(`https://brasilapi.com.br/api/ibge/uf/v1`);
+
+      const data = await res.json();
+      console.log(data);
+      setStates(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     mounted && (
       <form
@@ -166,9 +204,7 @@ const PropertyAddForm = () => {
           </select>
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2">
-            Nome
-          </label>
+          <label className="block text-gray-700 font-bold mb-2">Nome</label>
           <input
             type="text"
             id="name"
@@ -197,39 +233,88 @@ const PropertyAddForm = () => {
             onChange={handleChange}
           ></textarea>
         </div>
-
         <div className="mb-4 bg-blue-50 p-4">
-          <label className="block text-gray-700 font-bold mb-2">Localização</label>
-          <input
+          <label className="block text-gray-700 font-bold mb-2">
+            Localização
+          </label>
+          <TextField
             type="text"
             id="street"
             name="location.street"
             className="border rounded w-full py-2 px-3 mb-2"
             placeholder="Rua"
+            sx={{ width: '100%', marginBottom: '8px' }}
             value={fields.location.street}
             onChange={handleChange}
           />
-          <input
+          <TextField
             type="text"
-            id="city"
-            name="location.city"
+            id="neighborhood"
+            name="location.neighborhood"
             className="border rounded w-full py-2 px-3 mb-2"
-            placeholder="Cidade"
-            required
-            value={fields.location.city}
+            placeholder="Bairro"
+            sx={{ width: '100%', marginBottom: '8px' }}
+            value={fields.location.neighborhood}
             onChange={handleChange}
           />
-          <input
-            type="text"
+
+          <Autocomplete
+            disablePortal
             id="state"
-            name="location.state"
-            className="border rounded w-full py-2 px-3 mb-2"
-            placeholder="Estado"
-            required
+            options={states.map((item) => item.sigla)}
+            sx={{ width: '100%', marginBottom: '8px' }}
             value={fields.location.state}
-            onChange={handleChange}
+            onChange={(
+              event: SyntheticEvent<Element, Event>,
+              newValue: string | null
+            ) => {
+              const newFields = {
+                ...fields,
+                location: {
+                  ...fields.location,
+                  state: newValue ?? '',
+                  city: '',
+                },
+              };
+              if (newValue) {
+                getCitiesByState(newValue);
+              }
+              setFields(newFields);
+            }}
+            renderInput={(params) => (
+              <TextField
+                name="location.state"
+                placeholder="Estado"
+                {...params}
+              />
+            )}
           />
-          <input
+          <Autocomplete
+            disablePortal
+            id="city"
+            options={cities.map((item) => item.nome)}
+            sx={{ width: '100%', marginBottom: '8px' }}
+            value={fields.location.city}
+            disabled={!fields.location.state}
+            onChange={(
+              event: SyntheticEvent<Element, Event>,
+              newValue: string | null
+            ) => {
+              const newFields = {
+                ...fields,
+                location: { ...fields.location, city: newValue ?? '' },
+              };
+              setFields(newFields);
+            }}
+            renderInput={(params) => (
+              <TextField
+                name="location.city"
+                placeholder="Cidade"
+                {...params}
+              />
+            )}
+          />
+          <TextField
             type="text"
             id="zipcode"
             name="location.zipcode"
@@ -258,7 +343,7 @@ const PropertyAddForm = () => {
               onChange={handleChange}
             />
           </div>
-          <div className="w-full sm:w-1/3 px-2">
+          <div className="w-full sm:w-1/3 pr-2">
             <label
               htmlFor="baths"
               className="block text-gray-700 font-bold mb-2"
@@ -275,7 +360,7 @@ const PropertyAddForm = () => {
               onChange={handleChange}
             />
           </div>
-          <div className="w-full sm:w-1/3 pl-2">
+          <div className="w-full sm:w-1/3 pr-2">
             <label
               htmlFor="square_feet"
               className="block text-gray-700 font-bold mb-2"
@@ -316,85 +401,89 @@ const PropertyAddForm = () => {
                 type="checkbox"
                 id="amenity_kitchen"
                 name="amenities"
-                value="Full Kitchen"
+                value="Cozinha completa"
                 className="mr-2"
-                checked={fields.amenities.includes('Full Kitchen')}
+                checked={fields.amenities.includes('Cozinha completa')}
                 onChange={handleAmenitiesChange}
               />
-              <label htmlFor="amenity_kitchen">Full kitchen</label>
+              <label htmlFor="amenity_kitchen">Cozinha completa</label>
             </div>
             <div>
               <input
                 type="checkbox"
                 id="amenity_washer_dryer"
                 name="amenities"
-                value="Washer & Dryer"
+                value="Lavanderia"
                 className="mr-2"
-                checked={fields.amenities.includes('Washer & Dryer')}
+                checked={fields.amenities.includes('Lavanderia')}
                 onChange={handleAmenitiesChange}
               />
-              <label htmlFor="amenity_washer_dryer">Washer & Dryer</label>
+              <label htmlFor="amenity_washer_dryer">Lavanderia</label>
             </div>
             <div>
               <input
                 type="checkbox"
                 id="amenity_free_parking"
                 name="amenities"
-                value="Free Parking"
+                value="Estacionamento Gratuito"
                 className="mr-2"
-                checked={fields.amenities.includes('Free Parking')}
+                checked={fields.amenities.includes('Estacionamento Gratuito')}
                 onChange={handleAmenitiesChange}
               />
-              <label htmlFor="amenity_free_parking">Free Parking</label>
+              <label htmlFor="amenity_free_parking">
+                Estacionamento Gratuito
+              </label>
             </div>
             <div>
               <input
                 type="checkbox"
                 id="amenity_pool"
                 name="amenities"
-                value="Swimming Pool"
+                value="Piscina"
                 className="mr-2"
-                checked={fields.amenities.includes('Swimming Pool')}
+                checked={fields.amenities.includes('Piscina')}
                 onChange={handleAmenitiesChange}
               />
-              <label htmlFor="amenity_pool">Swimming Pool</label>
+              <label htmlFor="amenity_pool">Piscina</label>
             </div>
             <div>
               <input
                 type="checkbox"
                 id="amenity_hot_tub"
                 name="amenities"
-                value="Hot Tub"
+                value="Jacuzzi"
                 className="mr-2"
-                checked={fields.amenities.includes('Hot Tub')}
+                checked={fields.amenities.includes('Jacuzzi')}
                 onChange={handleAmenitiesChange}
               />
-              <label htmlFor="amenity_hot_tub">Hot Tub</label>
+              <label htmlFor="amenity_hot_tub">Jacuzzi</label>
             </div>
             <div>
               <input
                 type="checkbox"
                 id="amenity_24_7_security"
                 name="amenities"
-                value="24/7 Security"
+                value="Segurança 24/7"
                 className="mr-2"
-                checked={fields.amenities.includes('24/7 Security')}
+                checked={fields.amenities.includes('Segurança 24/7')}
                 onChange={handleAmenitiesChange}
               />
-              <label htmlFor="amenity_24_7_security">24/7 Security</label>
+              <label htmlFor="amenity_24_7_security">Segurança 24/7</label>
             </div>
             <div>
               <input
                 type="checkbox"
                 id="amenity_wheelchair_accessible"
                 name="amenities"
-                value="Wheelchair Accessible"
+                value="Acessível a cadeiras de rodas"
                 className="mr-2"
-                checked={fields.amenities.includes('Wheelchair Accessible')}
+                checked={fields.amenities.includes(
+                  'Acessível a cadeiras de rodas'
+                )}
                 onChange={handleAmenitiesChange}
               />
               <label htmlFor="amenity_wheelchair_accessible">
-                Wheelchair Accessible
+                Acessível a cadeiras de rodas
               </label>
             </div>
             <div>
@@ -402,62 +491,60 @@ const PropertyAddForm = () => {
                 type="checkbox"
                 id="amenity_elevator_access"
                 name="amenities"
-                value="Elevator Access"
+                value="Elevador"
                 className="mr-2"
-                checked={fields.amenities.includes('Elevator Access')}
+                checked={fields.amenities.includes('Elevador')}
                 onChange={handleAmenitiesChange}
               />
-              <label htmlFor="amenity_elevator_access">Elevator Access</label>
+              <label htmlFor="amenity_elevator_access">Elevador</label>
             </div>
             <div>
               <input
                 type="checkbox"
                 id="amenity_dishwasher"
                 name="amenities"
-                value="Dishwasher"
+                value="Lava-louças"
                 className="mr-2"
-                checked={fields.amenities.includes('Dishwasher')}
+                checked={fields.amenities.includes('Lava-louças')}
                 onChange={handleAmenitiesChange}
               />
-              <label htmlFor="amenity_dishwasher">Dishwasher</label>
+              <label htmlFor="amenity_dishwasher">Lava-louças</label>
             </div>
             <div>
               <input
                 type="checkbox"
                 id="amenity_gym_fitness_center"
                 name="amenities"
-                value="Gym/Fitness Center"
+                value="Academia"
                 className="mr-2"
-                checked={fields.amenities.includes('Gym/Fitness Center')}
+                checked={fields.amenities.includes('Academia')}
                 onChange={handleAmenitiesChange}
               />
-              <label htmlFor="amenity_gym_fitness_center">
-                Gym/Fitness Center
-              </label>
+              <label htmlFor="amenity_gym_fitness_center">Academia</label>
             </div>
             <div>
               <input
                 type="checkbox"
                 id="amenity_air_conditioning"
                 name="amenities"
-                value="Air Conditioning"
+                value="Ar-condicionado"
                 className="mr-2"
-                checked={fields.amenities.includes('Air Conditioning')}
+                checked={fields.amenities.includes('Ar-condicionado')}
                 onChange={handleAmenitiesChange}
               />
-              <label htmlFor="amenity_air_conditioning">Air Conditioning</label>
+              <label htmlFor="amenity_air_conditioning">Ar-condicionado</label>
             </div>
             <div>
               <input
                 type="checkbox"
                 id="amenity_balcony_patio"
                 name="amenities"
-                value="Balcony/Patio"
+                value="Área de lazer"
                 className="mr-2"
-                checked={fields.amenities.includes('Balcony/Patio')}
+                checked={fields.amenities.includes('Área de lazer')}
                 onChange={handleAmenitiesChange}
               />
-              <label htmlFor="amenity_balcony_patio">Balcony/Patio</label>
+              <label htmlFor="amenity_balcony_patio">Área de lazer</label>
             </div>
             <div>
               <input
@@ -476,12 +563,12 @@ const PropertyAddForm = () => {
                 type="checkbox"
                 id="amenity_coffee_maker"
                 name="amenities"
-                value="Coffee Maker"
+                value="Cafeteira"
                 className="mr-2"
-                checked={fields.amenities.includes('Coffee Maker')}
+                checked={fields.amenities.includes('Cafeteira')}
                 onChange={handleAmenitiesChange}
               />
-              <label htmlFor="amenity_coffee_maker">Coffee Maker</label>
+              <label htmlFor="amenity_coffee_maker">Cafeteira</label>
             </div>
           </div>
         </div>
@@ -492,7 +579,7 @@ const PropertyAddForm = () => {
           </label>
           <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
             <div className="flex items-center">
-              <label htmlFor="weekly_rate" className="mr-2">
+              <label htmlFor="weekly_rate" className="mr-2 min-w-20">
                 Semanal
               </label>
               <input
@@ -505,7 +592,7 @@ const PropertyAddForm = () => {
               />
             </div>
             <div className="flex items-center">
-              <label htmlFor="monthly_rate" className="mr-2">
+              <label htmlFor="monthly_rate" className="mr-2 min-w-20">
                 Mensal
               </label>
               <input
@@ -518,7 +605,7 @@ const PropertyAddForm = () => {
               />
             </div>
             <div className="flex items-center">
-              <label htmlFor="nightly_rate" className="mr-2">
+              <label htmlFor="nightly_rate" className="mr-2 min-w-20">
                 Diária
               </label>
               <input
@@ -610,7 +697,7 @@ const PropertyAddForm = () => {
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
             type="submit"
           >
-            Add Property
+            Adicionar Imóvel
           </button>
         </div>
       </form>

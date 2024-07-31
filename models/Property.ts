@@ -31,6 +31,9 @@ const PropertySchema = new Schema(
       zipcode: {
         type: String,
       },
+      neighborhood: {
+        type: String,
+      },
     },
     beds: {
       type: Number,

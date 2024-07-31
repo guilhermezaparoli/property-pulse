@@ -1,41 +1,45 @@
 import connectDB from '@/config/database';
 import Property from '@/models/Property';
-export const dynamic = 'force-dynamic';
-interface queryProps {}
+import { NextRequest } from 'next/server';
 
-export const GET = async (request: Request) => {
+// GET /api/properties/search
+export const GET = async (request: NextRequest) => {
   try {
-    connectDB();
+    await connectDB();
 
     const { searchParams } = new URL(request.url);
     const location = searchParams.get('location');
     const propertyType = searchParams.get('propertyType');
-    let locationPattern;
-    if (location) {
-      locationPattern = new RegExp(location, 'i');
-    }
 
-    let query: { $or?: any[], type?: RegExp } = {
-      $or: [
+    // Initialize query object
+    let query: any = {};
+
+    // Handle location pattern
+    if (location) {
+      const locationPattern = new RegExp(location, 'i');
+      query.$or = [
         { name: locationPattern },
         { description: locationPattern },
         { 'location.street': locationPattern },
         { 'location.city': locationPattern },
         { 'location.state': locationPattern },
         { 'location.zipcode': locationPattern },
-      ],
-    };
-    if (propertyType && propertyType !== 'All') {
+      ];
+    }
+
+    // Handle property type
+    if (propertyType && propertyType !== 'Todos') {
       const typePattern = new RegExp(propertyType, 'i');
       query.type = typePattern;
     }
 
     const properties = await Property.find(query);
 
-    return new Response(JSON.stringify(properties), { status: 200 });
-  } catch (error) {
-    return new Response(JSON.stringify('Algo deu errado'), {
-      status: 500,
+    return new Response(JSON.stringify(properties), {
+      status: 200,
     });
+  } catch (error) {
+    console.error('Error fetching properties:', error);
+    return new Response('Something went wrong', { status: 500 });
   }
 };

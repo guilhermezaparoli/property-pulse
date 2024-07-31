@@ -113,7 +113,9 @@ export const POST = async (request: NextRequest) => {
     const imageUploadPromises = [];
 
     for (const image of images) {
-      if (image instanceof File) {
+      console.log(image)
+      console.log(typeof image)
+      // if (image instanceof File) {
         const imageBuffer = await image.arrayBuffer();
         const imageArray = Array.from(new Uint8Array(imageBuffer));
         const imageData = Buffer.from(imageArray);
@@ -128,9 +130,9 @@ export const POST = async (request: NextRequest) => {
         );
     
         imageUploadPromises.push(result.secure_url);
-      } else {
-        console.warn('The item is not a file:', image);
-      }
+      // } else {
+      //   console.warn('The item is not a file:', image);
+      // }
     }
     
     const uploadedImages = await Promise.all(imageUploadPromises);

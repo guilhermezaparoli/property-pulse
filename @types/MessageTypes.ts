@@ -8,7 +8,9 @@ export  interface MessageTypes {
     _id: string;
     sender: Sender;
     recipient: string;
-    property: string;
+    property: {
+      name: string;
+    }
     name: string;
     email: string;
     phone: string;

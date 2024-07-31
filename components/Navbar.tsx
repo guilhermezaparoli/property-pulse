@@ -92,8 +92,9 @@ const Navbar = () => {
                 <Link
                   href="/properties"
                   className={`${
-                    pathname == '/properties' ? 'bg-black' : ''
+                    pathname.startsWith('/properties') || pathname.includes('properties/search-results') ? 'bg-black' : ''
                   } text-white hover:bg-gray-900 hover:text-white rounded-md px-3 py-2`}
+                  
                 >
                   Imóveis
                 </Link>

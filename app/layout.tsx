@@ -8,9 +8,9 @@ import '@/assets/styles/globals.css';
 import 'photoswipe/dist/photoswipe.css'
 import { GlobalProvider } from '@/context/GlobalContext';
 export const metadata = {
-  title: 'PropertyPulse | Find The Perfect Rental ',
-  description: 'Find your dream rental property',
-  keywords: 'rental, find rentals, find properties',
+  title: 'PropertyPulse | Encontre o aluguel perfeito ',
+  description: 'Encontre o imóvel dos seus sonhos para alugar',
+  keywords: 'alugar, encontrar aluguéis, encontrar imóveis, encontrar casas',
 };
 interface MainLayoutProps {
   children?: ReactNode;
