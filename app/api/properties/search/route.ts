@@ -24,6 +24,8 @@ export const GET = async (request: NextRequest) => {
         { 'location.city': locationPattern },
         { 'location.state': locationPattern },
         { 'location.zipcode': locationPattern },
+        { 'location.neighborhood': locationPattern },
+        { 'location.number': locationPattern },
       ];
     }
 

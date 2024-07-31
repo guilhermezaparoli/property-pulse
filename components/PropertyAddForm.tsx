@@ -1,6 +1,7 @@
 'use client';
 import { Autocomplete, styled, TextField } from '@mui/material';
 import { useState, useEffect, ChangeEvent, SyntheticEvent } from 'react';
+import Spinner from './Spinner';
 
 interface Location {
   street: string;
@@ -8,6 +9,7 @@ interface Location {
   state: string;
   zipcode: string;
   neighborhood: string;
+  number: number | string;
 }
 
 interface Rates {
@@ -72,6 +74,7 @@ const PropertyAddForm = () => {
       state: '',
       neighborhood: '',
       zipcode: '',
+      number: ''
     },
     beds: '',
     baths: '',
@@ -170,13 +173,15 @@ const PropertyAddForm = () => {
       console.error(error);
     }
   }
-
+const [loading, setLoading] = useState(false)
+console.log(loading)
   return (
     mounted && (
       <form
         action="/api/properties"
         method="POST"
         encType="multipart/form-data"
+        onSubmit={() => setLoading(true)}
       >
         <h2 className="text-3xl text-center font-semibold mb-6">
           Adicionar imóvel
@@ -245,6 +250,16 @@ const PropertyAddForm = () => {
             placeholder="Rua"
             sx={{ width: '100%', marginBottom: '8px' }}
             value={fields.location.street}
+            onChange={handleChange}
+          />
+          <TextField
+            type="number"
+            id="number"
+            name="location.number"
+            className="border rounded w-full py-2 px-3 mb-2"
+            placeholder="Número"
+            sx={{ width: '100%', marginBottom: '8px' }}
+            value={fields.location.number}
             onChange={handleChange}
           />
           <TextField
@@ -701,7 +716,7 @@ const PropertyAddForm = () => {
           </button>
         </div>
       </form>
-    )
+    ) 
   );
 };
 

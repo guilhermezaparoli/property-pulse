@@ -34,6 +34,9 @@ const PropertySchema = new Schema(
       neighborhood: {
         type: String,
       },
+      number: {
+        type: String,
+      },
     },
     beds: {
       type: Number,

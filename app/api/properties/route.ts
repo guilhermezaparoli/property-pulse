@@ -14,6 +14,8 @@ interface PropertyData {
     city: FormDataEntryValue | null;
     state: FormDataEntryValue | null;
     zipcode: FormDataEntryValue | null;
+    number: FormDataEntryValue | null;
+    neighborhood: FormDataEntryValue | null;
   };
   beds: FormDataEntryValue | null;
   baths: FormDataEntryValue | null;
@@ -91,6 +93,8 @@ export const POST = async (request: NextRequest) => {
         city: formData.get('location.city'),
         state: formData.get('location.state'),
         zipcode: formData.get('location.zipcode'),
+        neighborhood: formData.get('location.neighborhood'),
+        number: formData.get('location.number'),
       },
       beds: formData.get('beds'),
       baths: formData.get('baths'),
@@ -139,6 +143,7 @@ export const POST = async (request: NextRequest) => {
     propertyData.images = uploadedImages;
     console.log(uploadedImages)
     const newProperty = new Property(propertyData);
+    console.log(newProperty)
     await newProperty.save();
 
     return Response.redirect(
