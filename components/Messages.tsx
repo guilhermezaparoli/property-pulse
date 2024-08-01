@@ -28,7 +28,7 @@ const Messages = () => {
     };
     fetchMessages();
   }, []);
-  console.log(messages);
+
   return loading ? (
     <Spinner loading={loading} />
   ) : (

@@ -61,7 +61,6 @@ interface StatesData {
 }
 const PropertyAddForm = () => {
   const [cities, setCities] = useState<CitiesData[] | []>([]);
-  console.log(cities);
   const [states, setStates] = useState<StatesData[]>([]);
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -129,7 +128,6 @@ const PropertyAddForm = () => {
       amenities: uptadedAmenities,
     }));
   };
-  console.log(fields);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
@@ -168,13 +166,11 @@ const PropertyAddForm = () => {
       const res = await fetch(`https://brasilapi.com.br/api/ibge/uf/v1`);
 
       const data = await res.json();
-      console.log(data);
       setStates(data);
     } catch (error) {
       console.error(error);
     }
   }
-  console.log(loading);
   return (
     mounted && (
       <form

@@ -36,7 +36,6 @@ const PropertyMap = ({ property }: PropertyMapProps) => {
     const fetchCoords = async () => {
       try {
         const res = await fromAddress(`${property?.location.street} ${property?.location.city} ${property?.location.state} ${property?.location.zipcode}`);
-        console.log(res.results);
         if (res.results.length === 0) {
           setGeocodeError(true);
           setLoading(false);

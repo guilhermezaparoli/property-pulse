@@ -10,11 +10,8 @@ import { FaArrowAltCircleLeft } from 'react-icons/fa';
 
 const SearchResultsPage = () => {
   const searchParams = useSearchParams();
-
-  console.log(searchParams.get('location'));
   const location = searchParams.get('location');
   const propertyType = searchParams.get('propertyType');
-
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -40,7 +37,6 @@ const SearchResultsPage = () => {
     fetchSearchResults();
   }, [location, propertyType]);
 
-  console.log(properties);
   return <>
   <section className='bg-blue-700 py-4'>
     <div className="max-w-7xl mx-auto px-4 flex-col items-start sm:px-6: lg:px-8">

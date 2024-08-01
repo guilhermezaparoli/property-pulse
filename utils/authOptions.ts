@@ -25,9 +25,7 @@ export const authOptions: NextAuthOptions = {
     callbacks: { 
         async signIn({ profile }): Promise<string | boolean> {
             await connectDB();
-console.log(profile)
             const userExists = await User.findOne({email: profile?.email})
-console.log(userExists)
             if(!userExists){
                 const username = profile?.name?.slice(0, 20)
 
@@ -40,7 +38,6 @@ console.log(userExists)
             return true; // Return true to allow sign-in
         },
         async session({ session, token }): Promise<Session> {
-          console.log(session)
             const user = await User.findOne({email: session.user?.email})
 
             session.user.id = user._id.toString()

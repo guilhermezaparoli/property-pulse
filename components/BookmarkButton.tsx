@@ -60,7 +60,6 @@ const BookmarkButton = ({ property }: BookMarkButtonProps) => {
             propertyId: property._id,
           }),
         });
-console.log(res)
         if (res.status == 200) {
           const data = await res.json();
           setIsBoookmarked(data.isBookmarked);

@@ -16,7 +16,6 @@ const PropertyContactForm = ({ property }: PropertyContactFormProps) => {
   const [phone, setPhone] = useState('');
   const [wasSubmitted, setWasSubmitted] = useState(false);
 const {data: session} = useSession()
-console.log(session)
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -49,7 +48,6 @@ console.log(session)
         toast.error("Erro ao enviar mensagem")
       }
 
-      console.log(res);
     } catch (error) {
       console.error(error)
       toast.error("Erro ao enviar mensagem")

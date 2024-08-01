@@ -11,8 +11,6 @@ const Message = ({ message }: MessageProps) => {
   const [isRead, setIsRead] = useState(message.read);
   const [isDeleted, setIsDeleted] = useState(false)
   const {setUnreadCount} = useGlobalContext()
-console.log(message)
-
 
   async function onHandleClick() {
     try {
@@ -37,7 +35,7 @@ console.log(message)
         toast.error('Algo deu errado!')
     }
   }
-console.log(message)
+  
   async function handleDeleteClick() {
     try {
         const res = await fetch(`/api/messages/${message._id}`, {method: "DELETE"})

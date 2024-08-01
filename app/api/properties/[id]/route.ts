@@ -85,10 +85,9 @@ export const PUT = async (request: NextRequest, { params }: any) => {
     const { id } = params;
     const { userId } = sessionUser;
     const formData = await request.formData();
-    console.log(formData);
     const amenities = formData.getAll('amenities');
-console.log(id)
     const existingProperty = await Property.findById(id);
+
     if (!existingProperty) {
       return new Response('Property does not exist', { status: 404 });
     }
@@ -122,8 +121,6 @@ console.log(id)
       },
       owner: userId,
     };
-
-    console.log(propertyData);
 
    const updatedProperty = await Property.findByIdAndUpdate(id, propertyData);
 

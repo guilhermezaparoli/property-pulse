@@ -21,7 +21,6 @@ interface fetchPropertyProps {
     id: string
 }
 async function fetchProperty({id}: fetchPropertyProps): Promise<any> {
-    console.log(id)
   try {
     if (!apiDomain) {
       return null;

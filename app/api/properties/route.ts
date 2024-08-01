@@ -43,7 +43,6 @@ export const GET = async (request: NextRequest) => {
     const pageSize = Number(request.nextUrl.searchParams.get('pageSize')) || 6;
 
     const skip = (page - 1) * pageSize;
-console.log(skip)
     const total = await Property.countDocuments({});
 
     const properties = await Property.find({}).skip(skip).limit(pageSize);
@@ -77,12 +76,10 @@ export const POST = async (request: NextRequest) => {
 
     const { userId } = sessionUser;
     const formData = await request.formData();
-    console.log(formData);
     const amenities = formData.getAll('amenities');
     const images = formData
       .getAll('images')
       .filter((image: any) => image.name !== '') as File[];
-console.log(images)
     const propertyData: PropertyData = {
       type: formData.get('type'),
       name: formData.get('name'),
@@ -116,12 +113,7 @@ console.log(images)
     const imageUploadPromises = [];
 
     for (const image of images) {
-      console.log(image)
 
-
-
-      console.log(typeof image)
-      // if (image instanceof File) {
         const imageBuffer = await image.arrayBuffer();
         const imageArray = Array.from(new Uint8Array(imageBuffer));
         const imageData = Buffer.from(imageArray);
@@ -136,16 +128,13 @@ console.log(images)
         );
     
         imageUploadPromises.push(result.secure_url);
-      // } else {
-      //   console.warn('The item is not a file:', image);
-      // }
     }
     
     const uploadedImages = await Promise.all(imageUploadPromises);
     propertyData.images = uploadedImages;
-    console.log(uploadedImages)
+
     const newProperty = new Property(propertyData);
-    console.log(newProperty)
+ 
     await newProperty.save();
 
     return Response.redirect(

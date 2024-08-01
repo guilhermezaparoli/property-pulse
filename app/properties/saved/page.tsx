@@ -20,7 +20,6 @@ const SavedPropertiesPage = () => {
                     const data = await res.json()
                     setProperties(data)
                 } else {
-                    console.log(res.statusText)
                     toast.error('Houve um erro ao buscar imóveis salvos')
                 }
             } catch (error) {

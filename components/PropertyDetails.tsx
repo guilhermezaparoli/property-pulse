@@ -14,7 +14,6 @@ interface PropertyDetailsProps {
   data: Property | null;
 }
 const PropertyDetails = ({ data }: PropertyDetailsProps) => {
-  console.log(data)
   return (
     <main>
       <div className="bg-white p-6 rounded-lg shadow-md text-center md:text-left">
