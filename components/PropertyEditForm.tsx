@@ -10,6 +10,8 @@ interface Location {
   city: string;
   state: string;
   zipcode: string;
+  number: string;
+  neighborhood: string;
 }
 
 interface Rates {
@@ -73,6 +75,8 @@ const PropertyEditForm = () => {
       city: '',
       state: '',
       zipcode: '',
+      number: '',
+      neighborhood: ''
     },
     beds: '',
     baths: '',
@@ -176,12 +180,12 @@ const [loading, setLoading] = useState(true)
         onSubmit={handleSubmit}
       >
         <h2 className="text-3xl text-center font-semibold mb-6">
-          Edit Property
+          Editar imóvel
         </h2>
 
         <div className="mb-4">
           <label htmlFor="type" className="block text-gray-700 font-bold mb-2">
-            Property Type
+          Tipo do imóvel *
           </label>
           <select
             id="type"
@@ -201,15 +205,13 @@ const [loading, setLoading] = useState(true)
           </select>
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2">
-            Listing Name
-          </label>
+          <label className="block text-gray-700 font-bold mb-2">Nome *</label>
           <input
             type="text"
             id="name"
             name="name"
             className="border rounded w-full py-2 px-3 mb-2"
-            placeholder="eg. Beautiful Apartment In Miami"
+            placeholder="Ex: Um lindo apartamento em São José"
             required
             value={fields.name}
             onChange={handleChange}
@@ -220,7 +222,7 @@ const [loading, setLoading] = useState(true)
             htmlFor="description"
             className="block text-gray-700 font-bold mb-2"
           >
-            Description
+            Descrição
           </label>
           <textarea
             id="description"
@@ -234,7 +236,7 @@ const [loading, setLoading] = useState(true)
         </div>
 
         <div className="mb-4 bg-blue-50 p-4">
-          <label className="block text-gray-700 font-bold mb-2">Location</label>
+          <label className="block text-gray-700 font-bold mb-2">Localização</label>
           <input
             type="text"
             id="street"
@@ -243,6 +245,7 @@ const [loading, setLoading] = useState(true)
             placeholder="Street"
             value={fields.location.street}
             onChange={handleChange}
+            required
           />
           <input
             type="text"

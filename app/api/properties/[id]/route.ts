@@ -104,6 +104,8 @@ export const PUT = async (request: NextRequest, { params }: any) => {
         city: formData.get('location.city'),
         state: formData.get('location.state'),
         zipcode: formData.get('location.zipcode'),
+        number: formData.get('location.number'),
+        neighborhood: formData.get('location.neighborhood'),
       },
       beds: formData.get('beds'),
       baths: formData.get('baths'),
