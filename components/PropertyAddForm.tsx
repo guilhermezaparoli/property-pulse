@@ -64,6 +64,7 @@ const PropertyAddForm = () => {
   console.log(cities);
   const [states, setStates] = useState<StatesData[]>([]);
   const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [fields, setFields] = useState<Fields>({
     type: '',
     name: '',
@@ -74,7 +75,7 @@ const PropertyAddForm = () => {
       state: '',
       neighborhood: '',
       zipcode: '',
-      number: ''
+      number: '',
     },
     beds: '',
     baths: '',
@@ -173,8 +174,7 @@ const PropertyAddForm = () => {
       console.error(error);
     }
   }
-const [loading, setLoading] = useState(false)
-console.log(loading)
+  console.log(loading);
   return (
     mounted && (
       <form
@@ -189,7 +189,7 @@ console.log(loading)
 
         <div className="mb-4">
           <label htmlFor="type" className="block text-gray-700 font-bold mb-2">
-            Tipo do imóvel
+            Tipo do imóvel *
           </label>
           <select
             id="type"
@@ -209,7 +209,7 @@ console.log(loading)
           </select>
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2">Nome</label>
+          <label className="block text-gray-700 font-bold mb-2">Nome *</label>
           <input
             type="text"
             id="name"
@@ -247,30 +247,33 @@ console.log(loading)
             id="street"
             name="location.street"
             className="border rounded w-full py-2 px-3 mb-2"
-            placeholder="Rua"
+            placeholder="Rua *"
             sx={{ width: '100%', marginBottom: '8px' }}
             value={fields.location.street}
             onChange={handleChange}
+            required
           />
           <TextField
             type="number"
             id="number"
             name="location.number"
             className="border rounded w-full py-2 px-3 mb-2"
-            placeholder="Número"
+            placeholder="Número *"
             sx={{ width: '100%', marginBottom: '8px' }}
             value={fields.location.number}
             onChange={handleChange}
+            required
           />
           <TextField
             type="text"
             id="neighborhood"
             name="location.neighborhood"
             className="border rounded w-full py-2 px-3 mb-2"
-            placeholder="Bairro"
+            placeholder="Bairro *"
             sx={{ width: '100%', marginBottom: '8px' }}
             value={fields.location.neighborhood}
             onChange={handleChange}
+            required
           />
 
           <Autocomplete
@@ -299,7 +302,8 @@ console.log(loading)
             renderInput={(params) => (
               <TextField
                 name="location.state"
-                placeholder="Estado"
+                placeholder="Estado *"
+                required
                 {...params}
               />
             )}
@@ -324,7 +328,8 @@ console.log(loading)
             renderInput={(params) => (
               <TextField
                 name="location.city"
-                placeholder="Cidade"
+                placeholder="Cidade *"
+                required
                 {...params}
               />
             )}
@@ -334,9 +339,10 @@ console.log(loading)
             id="zipcode"
             name="location.zipcode"
             className="border rounded w-full py-2 px-3 mb-2"
-            placeholder="CEP"
+            placeholder="CEP *"
             value={fields.location.zipcode}
             onChange={handleChange}
+            required
           />
         </div>
 
@@ -346,7 +352,7 @@ console.log(loading)
               htmlFor="beds"
               className="block text-gray-700 font-bold mb-2"
             >
-              Quartos
+              Quartos *
             </label>
             <input
               type="number"
@@ -363,7 +369,7 @@ console.log(loading)
               htmlFor="baths"
               className="block text-gray-700 font-bold mb-2"
             >
-              Banheiros
+              Banheiros *
             </label>
             <input
               type="number"
@@ -380,7 +386,7 @@ console.log(loading)
               htmlFor="square_feet"
               className="block text-gray-700 font-bold mb-2"
             >
-              m²
+              m² *
             </label>
             <input
               type="number"
@@ -712,11 +718,11 @@ console.log(loading)
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
             type="submit"
           >
-            Adicionar Imóvel
+            {loading ? <Spinner loading={loading} size={20} style={{}} color={'#d3d3d3'} /> : 'Adicionar Imóvel'}
           </button>
         </div>
       </form>
-    ) 
+    )
   );
 };
 

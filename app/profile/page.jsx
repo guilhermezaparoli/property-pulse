@@ -64,7 +64,7 @@ const ProfilePage = () => {
         toast.error("Failed to delete property")
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       toast.error("Failed to delete property")
 
     }

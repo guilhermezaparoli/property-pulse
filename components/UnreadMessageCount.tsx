@@ -34,7 +34,7 @@ const {unreadCount, setUnreadCount} = useGlobalContext()
             setUnreadCount(data.count)
         }
       } catch (error) {
-        console.log(error)
+        console.error(error)
       }
     };
     fetchUnredMessagesCount()

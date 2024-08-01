@@ -26,7 +26,7 @@ export const GET = async () => {
    const messages = [...undReadMessages, ...readMessages]
       return new Response(JSON.stringify(messages), {status: 200})
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return new Response('Algo deu errado', {
       status: 500,
     });
@@ -72,7 +72,7 @@ export const POST = async (request: NextRequest) => {
       status: 200,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return new Response('Algo deu errado', {
       status: 500,
     });

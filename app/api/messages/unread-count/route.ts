@@ -28,7 +28,7 @@ export const GET = async () => {
       { status: 200 }
     );
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return new Response('Algo deu errado', {
       status: 500,
     });

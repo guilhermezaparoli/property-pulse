@@ -3,6 +3,8 @@ interface Location {
     city: string;
     state: string;
     zipcode: string;
+    number: string;
+    neighborhood:string;
   }
   
   interface Rates {

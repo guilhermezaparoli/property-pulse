@@ -13,8 +13,8 @@ import PropertyMap from './PropertyMap';
 interface PropertyDetailsProps {
   data: Property | null;
 }
-
 const PropertyDetails = ({ data }: PropertyDetailsProps) => {
+  console.log(data)
   return (
     <main>
       <div className="bg-white p-6 rounded-lg shadow-md text-center md:text-left">
@@ -23,8 +23,7 @@ const PropertyDetails = ({ data }: PropertyDetailsProps) => {
         <div className="text-gray-500 mb-4 flex align-middle justify-center md:justify-start">
           <FaMapMarked className="text-lg text-orange-700 mr-2" />
           <p className="text-orange-700">
-            {data?.location.street}, {data?.location.city}{' '}
-            {data?.location.state}
+            {data?.location.street}, {data?.location.number}, {data?.location.neighborhood}, {data?.location.city}/{data?.location.state}
           </p>
         </div>
 
@@ -94,6 +93,7 @@ const PropertyDetails = ({ data }: PropertyDetailsProps) => {
         <h3 className="text-lg font-bold mb-6">Comodidades</h3>
 
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 list-none">
+          {data?.amenities.length === 0 && <p>O proprietário não informou </p> }
           {data?.amenities.map((amenity, index) => {
             return (
               <li key={index}>
