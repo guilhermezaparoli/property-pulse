@@ -9,11 +9,13 @@ import {
   FaTimes,
 } from 'react-icons/fa';
 import PropertyMap from './PropertyMap';
+import formatBRL from '@/utils/formatBRL';
 
 interface PropertyDetailsProps {
   data: Property | null;
 }
 const PropertyDetails = ({ data }: PropertyDetailsProps) => {
+
   return (
     <main>
       <div className="bg-white p-6 rounded-lg shadow-md text-center md:text-left">
@@ -33,9 +35,10 @@ const PropertyDetails = ({ data }: PropertyDetailsProps) => {
           <div className="flex items-center justify-center mb-4 border-b border-gray-200 md:border-b-0 pb-4 md:pb-0">
             <div className="text-gray-500 mr-2 font-bold">Diária</div>
             <div className="text-2xl font-bold">
+              
               <div className="text-2xl font-bold text-blue-500">
                 {data?.rates.nightly ? (
-                  `R$ ${data.rates.nightly.toLocaleString()}`
+                  `${formatBRL(data.rates.nightly)}`
                 ) : (
                   <FaTimes className="text-red-700" />
                 )}
@@ -46,7 +49,7 @@ const PropertyDetails = ({ data }: PropertyDetailsProps) => {
             <div className="text-gray-500 mr-2 font-bold">Semanal</div>
             <div className="text-2xl font-bold text-blue-500">
               {data?.rates.weekly ? (
-                `R$ ${data.rates.weekly.toLocaleString()}`
+                `${formatBRL(data.rates.weekly)}`
               ) : (
                 <FaTimes className="text-red-700" />
               )}
@@ -56,7 +59,7 @@ const PropertyDetails = ({ data }: PropertyDetailsProps) => {
             <div className="text-gray-500 mr-2 font-bold">Mensal</div>
             <div className="text-2xl font-bold text-blue-500">
               {data?.rates.monthly ? (
-                `R$ ${data.rates.monthly.toLocaleString()}`
+                `${formatBRL(data.rates.monthly)}`
               ) : (
                 <FaTimes className="text-red-700" />
               )}
@@ -68,7 +71,7 @@ const PropertyDetails = ({ data }: PropertyDetailsProps) => {
       <div className="bg-white p-6 rounded-lg shadow-md mt-6">
         <h3 className="text-lg font-bold mb-6">Descrição e Detalhes</h3>
         <div className="flex justify-center gap-4 text-blue-500 mb-4 text-xl space-x-9">
-          <p>
+          <p >
             <FaBed className="inline-block mr-2" /> {data?.beds}{' '}
             <span className="hidden sm:inline">
               {data?.beds == 1 ? 'Cama' : 'Camas'}
@@ -85,7 +88,7 @@ const PropertyDetails = ({ data }: PropertyDetailsProps) => {
             {data?.square_feet} <span className="hidden sm:inline">m²</span>
           </p>
         </div>
-        <p className="text-gray-500 mb-4 text-center">{data?.description}</p>
+        <p className="text-gray-500 mb-4 text-start">{data?.description}</p>
       </div>
 
       <div className="bg-white p-6 rounded-lg shadow-md mt-6">

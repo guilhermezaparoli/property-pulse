@@ -1,3 +1,4 @@
+import formatBRL from '@/utils/formatBRL';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -51,11 +52,11 @@ const PropertyCard = ({ property }: PropertyCardProps) => {
     const { rates } = property;
 
     if (rates.monthly) {
-      return `R$ ${rates.monthly.toLocaleString()}/mês`;
+      return `${formatBRL(rates.monthly)}/mês`;
     } else if (rates.weekly) {
-      return `R$ ${rates.weekly.toLocaleString()}/semana`;
+      return `${formatBRL(rates.weekly)}/semana`;
     } else if (rates.nightly) {
-      return `R$ ${rates.nightly.toLocaleString()}/noite`;
+      return `${formatBRL(rates.nightly)}/noite`;
     }
   }
 

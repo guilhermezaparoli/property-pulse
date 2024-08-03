@@ -95,7 +95,7 @@ const PropertyAddForm = () => {
 
   useEffect(() => {
     setMounted(true);
-    getCitiesByState('SP');
+    getCitiesByState("SP");
     getStates();
   }, []);
 
@@ -357,7 +357,14 @@ const PropertyAddForm = () => {
               className="border rounded w-full py-2 px-3"
               required
               value={fields.beds}
-              onChange={handleChange}
+              onChange={(e) => {
+                if(Number(e.target.value) > 0){
+                  handleChange(e)
+                } else {
+                  e.target.value = ''
+                }
+                handleChange(e)
+              }}
             />
           </div>
           <div className="w-full sm:w-1/3 pr-2">
@@ -374,7 +381,14 @@ const PropertyAddForm = () => {
               className="border rounded w-full py-2 px-3"
               required
               value={fields.baths}
-              onChange={handleChange}
+              onChange={(e) => {
+                if(Number(e.target.value) > 0){
+                  handleChange(e)
+                } else {
+                  e.target.value = ''
+                }
+                handleChange(e)
+              }}
             />
           </div>
           <div className="w-full sm:w-1/3 pr-2">
@@ -391,7 +405,14 @@ const PropertyAddForm = () => {
               className="border rounded w-full py-2 px-3"
               required
               value={fields.square_feet}
-              onChange={handleChange}
+              onChange={(e) => {
+                if(Number(e.target.value) > 0){
+                  handleChange(e)
+                } else {
+                  e.target.value = ''
+                }
+                handleChange(e)
+              }}
             />
           </div>
         </div>
@@ -605,7 +626,14 @@ const PropertyAddForm = () => {
                 name="rates.weekly"
                 className="border rounded w-full py-2 px-3"
                 value={fields.rates.weekly}
-                onChange={handleChange}
+                   onChange={(e) => {
+                if(Number(e.target.value) > 0){
+                  handleChange(e)
+                } else {
+                  e.target.value = ''
+                }
+                handleChange(e)
+              }}
               />
             </div>
             <div className="flex items-center">
@@ -618,7 +646,14 @@ const PropertyAddForm = () => {
                 name="rates.monthly"
                 className="border rounded w-full py-2 px-3"
                 value={fields.rates.monthly}
-                onChange={handleChange}
+                   onChange={(e) => {
+                if(Number(e.target.value) > 0){
+                  handleChange(e)
+                } else {
+                  e.target.value = ''
+                }
+                handleChange(e)
+              }}
               />
             </div>
             <div className="flex items-center">
@@ -631,7 +666,14 @@ const PropertyAddForm = () => {
                 name="rates.nightly"
                 className="border rounded w-full py-2 px-3"
                 value={fields.rates.nightly}
-                onChange={handleChange}
+                   onChange={(e) => {
+                if(Number(e.target.value) > 0){
+                  handleChange(e)
+                } else {
+                  e.target.value = ''
+                }
+                handleChange(e)
+              }}
               />
             </div>
           </div>
