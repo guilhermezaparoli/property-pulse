@@ -36,8 +36,6 @@ O Projeto usa as seguintes tecnologias:
 - [React Toastify](https://fkhadra.github.io/react-toastify/)
 - [React Share](https://www.npmjs.com/package/react-share)
 
-## Começando
-
 ### Requisitos
 
 - Node.js versão 18 ou superior
