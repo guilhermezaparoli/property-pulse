@@ -12,7 +12,7 @@ Aqui estão algumas das funcionalidades atuais do Property Pulse:
 - Galeria de imagens Photoswipe
 - Mapas Mapbox
 - Notificações Toast
-- Marcadores de imóveis / imóveis salvos
+- Favoritar imóveis / imóveis salvos
 - Compartilhamento de imóveis nas redes sociais
 - Spinners de carregamento
 - Design responsivo (Tailwind)
