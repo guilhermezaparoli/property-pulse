@@ -17,7 +17,7 @@ export const authOptions: NextAuthOptions = {
                 params: {
                     prompt: 'consent',
                     response_type: 'code',
-                    access_type: 'offline'
+                    // access_type: 'offline'
                 }
             }
         })
